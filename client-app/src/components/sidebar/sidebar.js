@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 //import { SERVER_URL } from "../../constants";
 import "./sidebar.css";
+import { Link } from 'react-router-dom';
 
 class Sidebar extends Component {
 	//constructor(props) {
@@ -10,32 +11,32 @@ class Sidebar extends Component {
 
 	render() {
 		return (
-			<aside class="bd-sidebar">
-				<div class="flex-shrink-0 p-3 bg-white" style={{width: 280}}>
-					<a href="/admin/home" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-						<span class="fs-5 fw-semibold">Admin Dashboard</span>
+			<aside className="bd-sidebar">
+				<div className="flex-shrink-0 p-3 bg-white" style={{width: 280}}>
+					<a href="/admin/home" className="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+						<span className="fs-5 fw-semibold">Admin Dashboard</span>
 					</a>
-					<ul class="list-unstyled ps-0">
-						<li class="mb-1">
-							<button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" id="platforms-btn" data-bs-target="#platforms" aria-expanded="false">
+					<ul className="list-unstyled ps-0">
+						<li className="mb-1">
+							<button className="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" id="platforms-btn" data-bs-target="#platforms" aria-expanded="false">
 								Categories
                     </button>
-							<div class="collapse" id="platforms">
-								<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-									<li><a id="show-platforms-link" href="/admin/platform/list.xhtml" class="link-dark rounded">Show categories</a></li>
-									<li><a id="add-platform-link" href="/admin/category/create" class="link-dark rounded">Add category</a></li>
+							<div className="collapse" id="platforms">
+								<ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+									<li><a id="show-platforms-link" href="/admin/platform/list.xhtml" className="link-dark rounded">Show categories</a></li>
+									<li><Link id="add-platform-link" to="/admin/category/create" className="link-dark rounded">Add category</Link></li>
 								</ul>
 							</div>
 						</li>
 
-						<li class="mb-1">
-							<button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" id="add-chapter-btn" data-bs-target="#chapters" aria-expanded="false">
+						<li className="mb-1">
+							<button className="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" id="add-chapter-btn" data-bs-target="#chapters" aria-expanded="false">
 								Recipes
                     </button>
-							<div class="collapse" id="chapters">
-								<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-									<li><a id="show-chapters-link" href="/admin/chapter/list.xhtml" class="link-dark rounded">Show recipes</a></li>
-									<li><a id="add-chapters-link" href="/admin/chapter/create.xhtml" class="link-dark rounded">Add recipe</a></li>
+							<div className="collapse" id="chapters">
+								<ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+									<li><a id="show-chapters-link" href="/admin/chapter/list.xhtml" className="link-dark rounded">Show recipes</a></li>
+									<li><a id="add-chapters-link" href="/admin/chapter/create.xhtml" className="link-dark rounded">Add recipe</a></li>
 								</ul>
 							</div>
 						</li>
@@ -49,27 +50,27 @@ class Sidebar extends Component {
 	/*
 	render() {
 		const categs = this.state.recipeCategs.map((recipeCateg, index) => (
-			<li className="mb-1" key={index}>
-				<button className="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target={"#home-collapse-" + index} id={"btn-collapse-" + index} aria-expanded="false">
+			<li classNameName="mb-1" key={index}>
+				<button classNameName="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target={"#home-collapse-" + index} id={"btn-collapse-" + index} aria-expanded="false">
 					{recipeCateg.name}
 				</button>
-				<div className="collapse" id={"home-collapse-" + index}>
-					<ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+				<div classNameName="collapse" id={"home-collapse-" + index}>
+					<ul classNameName="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 						{recipeCateg.recipes.map((recipe, index2) => (
 							<li key={index2}><a href="/chapter/index?id={recipe.id}&amp;platform=#{chapter.platform.id}&amp;chapter=#{chapter.urlName}" 
-								id={"chapter-link-" + recipe.id} className="link-dark rounded">{recipe.name}</a></li>
+								id={"chapter-link-" + recipe.id} classNameName="link-dark rounded">{recipe.name}</a></li>
 						))}
 					</ul>
 				</div>
 			</li>
 		));
 		return (
-			<aside className="bd-sidebar">
-				<div className="flex-shrink-0 p-3 bg-white" style={{width: 280}}>
-					<a href="/" className="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-						<span className="fs-5 fw-semibold">Rețete</span>
+			<aside classNameName="bd-sidebar">
+				<div classNameName="flex-shrink-0 p-3 bg-white" style={{width: 280}}>
+					<a href="/" classNameName="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+						<span classNameName="fs-5 fw-semibold">Rețete</span>
 					</a>
-					<ul className="list-unstyled ps-0">
+					<ul classNameName="list-unstyled ps-0">
 						{categs}
 					</ul>
 				</div >
