@@ -2,10 +2,16 @@ import React, { Component } from "react";
 import { SERVER_URL } from "../../constants";
 import { withRouter } from "react-router";
 
+import { Editor } from "react-draft-wysiwyg";
+import { EditorState, convertToRaw } from "draft-js";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import draftToHtml from "draftjs-to-html";
+import "./recipe.css";
+
 class CategoryCreate extends Component {
   constructor(props) {
     super(props);
-    this.state = { value: "" };
+    this.state = { editorState: EditorState.createEmpty() };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -13,6 +19,7 @@ class CategoryCreate extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    /*
     fetch(SERVER_URL + "api/recipeCategories", {
       method: "POST",
       headers: {
@@ -22,15 +29,23 @@ class CategoryCreate extends Component {
     }).then(() => {
       this.props.history.push("/admin/category");
     });
+    */
   }
 
   handleChange(event) {
     this.setState({ value: event.target.value });
   }
+  onEditorStateChange = (editorState) => {
+    this.setState({
+      editorState, 
+    })
+  }
 
   render() {
+    const {editorState} = this.state;
     return (
       <div>
+        
         <div className="page-content">
           <h1 className="page-title">Add recipe</h1>
           <form
@@ -56,16 +71,25 @@ class CategoryCreate extends Component {
         </div>
 
         <div className="page-content">
-          <h1 className="page-title">Add chapter</h1>
+          <h1 className="page-title">Add recipe</h1>
           <form id="form-chapter" method="POST">
-            Platform:{" "}
+            Category:{" "}
             <select className="mb-4">
               <option>A</option>
             </select>
             <div className="form-group mb-4">
               Name: <input type="text" name="name" />
             </div>
-            <textarea id="summernote" name="content"></textarea>
+            <div id="editor-wrapper">
+        <Editor
+  editorState={editorState}
+  wrapperClassName="wrapper-draft"
+  editorClassName="editor-draft"
+  toolbarClassName="toolbar-draft"
+  
+  onEditorStateChange={this.onEditorStateChange}
+/></div>
+            <textarea className="d-none" id="textarea" name="content" value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}></textarea>
             <button type="submit" className="btn btn-primary">
               Submit
             </button>

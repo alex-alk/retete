@@ -1,0 +1,17 @@
+.editor-draft {
+    height: 275px !important;
+    border: 1px solid #d3d3d3;
+    padding: 5px !important;
+    border-radius: 2px !important;
+}
+.toolbar-draft {
+    border: 1px solid #d3d3d3;
+}
+.rdw-dropdown-selectedtext {
+    text-decoration: none;
+    color: black;
+}
+#editor-wrapper {
+    max-width: 650px;
+    margin-bottom: 10px;
+ }
