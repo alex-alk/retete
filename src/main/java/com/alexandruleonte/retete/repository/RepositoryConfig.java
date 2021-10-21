@@ -5,6 +5,7 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import com.alexandruleonte.retete.model.Recipe;
+import com.alexandruleonte.retete.model.RecipeCategory;
 
 @Configuration
 public class RepositoryConfig implements RepositoryRestConfigurer {
@@ -12,5 +13,6 @@ public class RepositoryConfig implements RepositoryRestConfigurer {
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
         config.exposeIdsFor(Recipe.class);
+        config.exposeIdsFor(RecipeCategory.class);
     }
 }

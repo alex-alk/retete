@@ -9,21 +9,27 @@ import Sidebar from "./components/sidebar/sidebar";
 import CategoryIndex from "./components/category/index";
 import CategoryCreate from "./components/category/create";
 import NotFound from "./not-found";
-import BaseLayout from "./base";
+import CategoryEdit from "./components/category/edit";
+import RecipeCreate from "./components/recipe/create";
 
-function App({location}) {
+function App() {
   return (
     <Router>
       <div>
+      <Navbar />
+        <Sidebar />
         <Switch>
-          <Route exact path="/admin/category/create">
-			<BaseLayout />
-            <CategoryCreate />
-          </Route>
-          <Route exact path="/admin">
-		  	<BaseLayout />
-          </Route>
-          <Route path='*' exact component={NotFound} />
+          <Route exact path="/admin"  />
+
+          <Route exact path="/admin/category" component={CategoryIndex} />
+          <Route exact path="/admin/category/create" component={CategoryCreate} />
+          <Route exact path="/admin/category/:id/edit" component={CategoryEdit} />
+
+          <Route exact path="/admin/recipe/create" component={RecipeCreate} />
+
+          <Route path="*">
+            <NotFound />
+            </Route>
         </Switch>
       </div>
     </Router>

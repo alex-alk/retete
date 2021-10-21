@@ -3,10 +3,9 @@ import { SERVER_URL } from "../../constants";
 import { withRouter } from "react-router";
 
 class CategoryCreate extends Component {
-  
   constructor(props) {
     super(props);
-    this.state = {value: ''};
+    this.state = { value: "" };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -15,13 +14,13 @@ class CategoryCreate extends Component {
   handleSubmit(event) {
     event.preventDefault();
     fetch(SERVER_URL + "api/recipeCategories", {
-        method: 'POST',
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ name: this.state.value }),
     }).then(() => {
-      this.props.history.push('/admin/category');
+      this.props.history.push("/admin/category");
     });
   }
 
@@ -33,7 +32,7 @@ class CategoryCreate extends Component {
     return (
       <div>
         <div className="page-content">
-          <h1 className="page-title">Add recipe category</h1>
+          <h1 className="page-title">Add recipe</h1>
           <form
             className="row g-3"
             id="form"
@@ -55,8 +54,28 @@ class CategoryCreate extends Component {
             </div>
           </form>
         </div>
+
+        <div className="page-content">
+          <h1 className="page-title">Add chapter</h1>
+          <form id="form-chapter" method="POST">
+            Platform:{" "}
+            <select className="mb-4">
+              <option>A</option>
+            </select>
+            <div className="form-group mb-4">
+              Name: <input type="text" name="name" />
+            </div>
+            <textarea id="summernote" name="content"></textarea>
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </form>
+        </div>
       </div>
     );
+  }
+  componentDidMount() {
+    document.title = "Create recipe | Rețete";
   }
 }
 export default withRouter(CategoryCreate);

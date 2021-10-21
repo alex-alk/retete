@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { SERVER_URL } from "../../constants";
 import { withRouter } from "react-router";
 
-class CategoryCreate extends Component {
-  
+class CategoryEdit extends Component {
   constructor(props) {
     super(props);
-    this.state = {value: ''};
+
+    this.state = { id: 0, name: "" };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -14,26 +14,26 @@ class CategoryCreate extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    fetch(SERVER_URL + "api/recipeCategories", {
-        method: 'POST',
+    fetch(SERVER_URL + "api/recipeCategories/" + this.props.match.params.id, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name: this.state.value }),
+      body: JSON.stringify({ id: this.state.id, name: this.state.name }),
     }).then(() => {
       this.props.history.push('/admin/category');
     });
   }
 
   handleChange(event) {
-    this.setState({ value: event.target.value });
+    this.setState({ name: event.target.value });
   }
 
   render() {
     return (
       <div>
         <div className="page-content">
-          <h1 className="page-title">Add recipe category</h1>
+          <h1 className="page-title">Edit recipe category</h1>
           <form
             className="row g-3"
             id="form"
@@ -45,6 +45,7 @@ class CategoryCreate extends Component {
                 type="text"
                 className="form-control"
                 name="name"
+                value={this.state.name}
                 onChange={this.handleChange}
               />
             </div>
@@ -58,5 +59,17 @@ class CategoryCreate extends Component {
       </div>
     );
   }
+  componentDidMount() {
+    document.title = "Editare rețetă | Rețete";
+    fetch(SERVER_URL + "api/recipeCategories/" + this.props.match.params.id)
+      .then((response) => response.json())
+      .then((responseData) => {
+        this.setState({
+          id: responseData.id,
+          name: responseData.name,
+        });
+      })
+      .catch((err) => console.error(err));
+  }
 }
-export default withRouter(CategoryCreate);
+export default withRouter(CategoryEdit);

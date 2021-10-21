@@ -2,16 +2,14 @@ import React, { Component } from "react";
 //import { SERVER_URL } from "../../constants";
 import "./sidebar.css";
 import { Link } from 'react-router-dom';
+import { withRouter } from "react-router";
 
 class Sidebar extends Component {
-	//constructor(props) {
-	//super(props);
-	//this.state = { recipeCategs: [] };
-	//}
+
 
 	render() {
 		return (
-			<aside className="bd-sidebar">
+			<aside className={'bd-sidebar' + this.props.x }>
 				<div className="flex-shrink-0 p-3 bg-white" style={{width: 280}}>
 					<a href="/admin/home" className="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
 						<span className="fs-5 fw-semibold">Admin Dashboard</span>
@@ -23,7 +21,7 @@ class Sidebar extends Component {
                     </button>
 							<div className="collapse" id="platforms">
 								<ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-									<li><a id="show-platforms-link" href="/admin/platform/list.xhtml" className="link-dark rounded">Show categories</a></li>
+									<li><Link id="show-platforms-link" to="/admin/category" className="link-dark rounded">Show categories</Link></li>
 									<li><Link id="add-platform-link" to="/admin/category/create" className="link-dark rounded">Add category</Link></li>
 								</ul>
 							</div>
@@ -36,7 +34,7 @@ class Sidebar extends Component {
 							<div className="collapse" id="chapters">
 								<ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 									<li><a id="show-chapters-link" href="/admin/chapter/list.xhtml" className="link-dark rounded">Show recipes</a></li>
-									<li><a id="add-chapters-link" href="/admin/chapter/create.xhtml" className="link-dark rounded">Add recipe</a></li>
+									<li><Link id="add-chapters-link" to="/admin/recipe/create" className="link-dark rounded">Add recipe</Link></li>
 								</ul>
 							</div>
 						</li>
@@ -91,4 +89,4 @@ class Sidebar extends Component {
 	}*/
 
 }
-export default Sidebar;
+export default withRouter(Sidebar);
