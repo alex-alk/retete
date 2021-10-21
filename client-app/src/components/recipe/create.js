@@ -11,85 +11,74 @@ import "./recipe.css";
 class CategoryCreate extends Component {
   constructor(props) {
     super(props);
-    this.state = { editorState: EditorState.createEmpty() };
+    this.state = { categoryId: 0, name: '', content: '', recipeCategs: [], editorState: EditorState.createEmpty() };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+
+    this.fileInput = React.createRef();
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    /*
+    
     fetch(SERVER_URL + "api/recipeCategories", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name: this.state.value }),
+      body: JSON.stringify({ name: this.state.name, content: this.state.content, 'category_id': this.state.categoryId, photo: this.fileInput.current.files[0] }),
     }).then(() => {
       this.props.history.push("/admin/category");
     });
-    */
+  
   }
 
   handleChange(event) {
-    this.setState({ value: event.target.value });
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
   }
   onEditorStateChange = (editorState) => {
     this.setState({
-      editorState, 
-    })
-  }
+      editorState,
+      content: draftToHtml(convertToRaw(editorState.getCurrentContent()))
+    });
+  };
 
   render() {
-    const {editorState} = this.state;
+    const { editorState } = this.state;
     return (
       <div>
-        
         <div className="page-content">
           <h1 className="page-title">Add recipe</h1>
-          <form
-            className="row g-3"
-            id="form"
-            method="post"
-            onSubmit={this.handleSubmit}
-          >
-            <div className="col-auto">
-              <input
-                type="text"
-                className="form-control"
-                name="name"
-                onChange={this.handleChange}
-              />
-            </div>
-            <div className="col-auto">
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <div className="page-content">
-          <h1 className="page-title">Add recipe</h1>
-          <form id="form-chapter" method="POST">
+          <form id="form-chapter" method="POST" onSubmit={this.handleSubmit}>
             Category:{" "}
-            <select className="mb-4">
-              <option>A</option>
+            <select className="mb-4" onChange={this.handleChange}>
+            { this.state.recipeCategs.map((recipeCateg, index) => (
+              <option value={recipeCateg.id} key={index}>{recipeCateg.name}</option>
+      )) }
+              
             </select>
             <div className="form-group mb-4">
-              Name: <input type="text" name="name" />
+              Name: <input type="text" name="name" onChange={this.handleChange} />
+            </div>
+            <div className="form-group mb-4">
+              Photo: <input ref={this.fileInput} type="file" name="photo" />
             </div>
             <div id="editor-wrapper">
-        <Editor
-  editorState={editorState}
-  wrapperClassName="wrapper-draft"
-  editorClassName="editor-draft"
-  toolbarClassName="toolbar-draft"
-  
-  onEditorStateChange={this.onEditorStateChange}
-/></div>
-            <textarea className="d-none" id="textarea" name="content" value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}></textarea>
+              <Editor
+                editorState={editorState}
+                wrapperClassName="wrapper-draft"
+                editorClassName="editor-draft"
+                toolbarClassName="toolbar-draft"
+                onEditorStateChange={this.onEditorStateChange}
+              />
+            </div>
             <button type="submit" className="btn btn-primary">
               Submit
             </button>
@@ -100,6 +89,15 @@ class CategoryCreate extends Component {
   }
   componentDidMount() {
     document.title = "Create recipe | Rețete";
+    fetch(SERVER_URL + "api/recipeCategories")
+      .then((response) => response.json())
+      .then((responseData) => {
+        this.setState({
+          recipeCategs: responseData._embedded.recipeCategories,
+          categoryId: responseData._embedded.recipeCategories[0].id
+        });
+      })
+      .catch((err) => console.error(err));
   }
 }
 export default withRouter(CategoryCreate);
