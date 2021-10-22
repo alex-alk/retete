@@ -11,7 +11,14 @@ import "./recipe.css";
 class CategoryCreate extends Component {
   constructor(props) {
     super(props);
-    this.state = { categoryId: 0, name: '', content: '', recipeCategs: [], editorState: EditorState.createEmpty() };
+    this.state = {
+      categoryId: "http://localhost:8080/api/recipeCategories/1",
+      name: "",
+      content: "",
+      recipeCategs: [],
+      photoSrc: "",
+      editorState: EditorState.createEmpty(),
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,32 +28,64 @@ class CategoryCreate extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    
-    fetch(SERVER_URL + "api/recipeCategories", {
+
+
+    fetch(SERVER_URL + "api/recipes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name: this.state.name, content: this.state.content, 'category_id': this.state.categoryId, photo: this.fileInput.current.files[0] }),
+      body: JSON.stringify({
+        name: this.state.name,
+        content: this.state.content,
+        category: this.state.categoryId,
+        photoSrc: 'filled in the backend',
+      }),
     }).then(() => {
       this.props.history.push("/admin/category");
     });
-  
+
+    const formData = new FormData();
+    formData.append("image", this.state.photoSrc);
+
+    // fetch(SERVER_URL + "api/recipe/saveImage", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    //   body: formData,
+    // }).then(() => {
+    //   this.props.history.push("/admin/category");
+    // });
   }
 
   handleChange(event) {
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    let value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
+    if (name === "photoSrc") {
+      console.log(this.fileInput.current.files[0]);
 
-    this.setState({
-      [name]: value
-    });
+
+      
+
+
+        this.setState({
+          [name]: value,
+        });
+      
+    } else {
+      this.setState({
+        [name]: value,
+      });
+    }
+
+    
   }
   onEditorStateChange = (editorState) => {
     this.setState({
       editorState,
-      content: draftToHtml(convertToRaw(editorState.getCurrentContent()))
+      content: draftToHtml(convertToRaw(editorState.getCurrentContent())),
     });
   };
 
@@ -59,16 +98,18 @@ class CategoryCreate extends Component {
           <form id="form-chapter" method="POST" onSubmit={this.handleSubmit}>
             Category:{" "}
             <select className="mb-4" onChange={this.handleChange}>
-            { this.state.recipeCategs.map((recipeCateg, index) => (
-              <option value={recipeCateg.id} key={index}>{recipeCateg.name}</option>
-      )) }
-              
+              {this.state.recipeCategs.map((recipeCateg, index) => (
+                <option value={recipeCateg.id} key={index}>
+                  {recipeCateg.name}
+                </option>
+              ))}
             </select>
             <div className="form-group mb-4">
-              Name: <input type="text" name="name" onChange={this.handleChange} />
+              Name:{" "}
+              <input type="text" name="name" onChange={this.handleChange} />
             </div>
             <div className="form-group mb-4">
-              Photo: <input ref={this.fileInput} type="file" name="photo" />
+              Photo: <input ref={this.fileInput} type="file" name="photoSrc" onChange={this.handleChange} />
             </div>
             <div id="editor-wrapper">
               <Editor
@@ -94,7 +135,7 @@ class CategoryCreate extends Component {
       .then((responseData) => {
         this.setState({
           recipeCategs: responseData._embedded.recipeCategories,
-          categoryId: responseData._embedded.recipeCategories[0].id
+          categoryId: responseData._embedded.recipeCategories[0].id,
         });
       })
       .catch((err) => console.error(err));
