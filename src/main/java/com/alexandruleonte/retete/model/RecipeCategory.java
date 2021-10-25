@@ -25,7 +25,7 @@ public class RecipeCategory {
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="category")
-	@RestResource(exported = false)
+	@RestResource(exported = true)
 	private List<Recipe> recipes;
 
 	public List<Recipe> getRecipes() {

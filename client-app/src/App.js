@@ -11,6 +11,7 @@ import CategoryCreate from "./components/category/create";
 import NotFound from "./not-found";
 import CategoryEdit from "./components/category/edit";
 import RecipeCreate from "./components/recipe/create";
+import RecipeList from "./components/recipe/list";
 
 function App() {
   
@@ -25,8 +26,8 @@ function App() {
           <Route exact path="/admin/category" component={CategoryIndex} />
           <Route exact path="/admin/category/create" component={CategoryCreate} />
           <Route exact path="/admin/category/:id/edit" component={CategoryEdit} />
-
-          <Route exact path="/admin/recipe/create" component={RecipeCreate} />
+          <Route exact path="/admin/recipes" component={RecipeList} />
+          <Route exact path="/admin/recipes/create" component={RecipeCreate} />
 
           <Route path="*">
             <NotFound />

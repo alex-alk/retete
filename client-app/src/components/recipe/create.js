@@ -30,33 +30,34 @@ class CategoryCreate extends Component {
     event.preventDefault();
 
 
-    fetch(SERVER_URL + "api/recipes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: this.state.name,
-        content: this.state.content,
-        category: this.state.categoryId,
-        photoSrc: 'filled in the backend',
-      }),
-    }).then(() => {
-      this.props.history.push("/admin/category");
-    });
+    // fetch(SERVER_URL + "api/recipes", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     name: this.state.name,
+    //     content: this.state.content,
+    //     category: {id: this.state.categoryId},
+    //     photoSrc: 'filled in the backend',
+    //   }),
+    // }).then(() => {
+    //   this.props.history.push("/admin/recipes");
+    // });
 
     const formData = new FormData();
     formData.append("image", this.state.photoSrc);
+    console.log("state: ");
+    console.log(this.state.photoSrc);
 
-    // fetch(SERVER_URL + "api/recipe/saveImage", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    //   body: formData,
-    // }).then(() => {
-    //   this.props.history.push("/admin/category");
-    // });
+    fetch(SERVER_URL + "api/recipe/saveImage", {
+      method: "POST",
+      
+      body: formData,
+    }).then(() => {
+      console.log(formData);
+      //this.props.history.push("/admin/recipes");
+    }).catch((err) => console.error(err));;
   }
 
   handleChange(event) {
@@ -64,12 +65,8 @@ class CategoryCreate extends Component {
     let value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     if (name === "photoSrc") {
-      console.log(this.fileInput.current.files[0]);
 
-
-      
-
-
+      let value = target.files[0];
         this.setState({
           [name]: value,
         });
@@ -109,7 +106,7 @@ class CategoryCreate extends Component {
               <input type="text" name="name" onChange={this.handleChange} />
             </div>
             <div className="form-group mb-4">
-              Photo: <input ref={this.fileInput} type="file" name="photoSrc" onChange={this.handleChange} />
+              Photo: <input type="file" name="photoSrc" onChange={this.handleChange} />
             </div>
             <div id="editor-wrapper">
               <Editor

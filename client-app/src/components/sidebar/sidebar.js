@@ -33,8 +33,8 @@ class Sidebar extends Component {
                     </button>
 							<div className="collapse" id="chapters">
 								<ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-									<li><a id="show-chapters-link" href="/admin/chapter/list.xhtml" className="link-dark rounded">Show recipes</a></li>
-									<li><Link id="add-chapters-link" to="/admin/recipe/create" className="link-dark rounded">Add recipe</Link></li>
+									<li><a id="show-chapters-link" href="/admin/recipes" className="link-dark rounded">Show recipes</a></li>
+									<li><Link id="add-chapters-link" to="/admin/recipes/create" className="link-dark rounded">Add recipe</Link></li>
 								</ul>
 							</div>
 						</li>

@@ -1,8 +1,9 @@
 package com.alexandruleonte.retete.model;
 
 import javax.persistence.*;
+import org.springframework.data.rest.core.annotation.RestResource;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "recipes")
@@ -19,6 +20,7 @@ public class Recipe {
 	private String photoSrc;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@RestResource(exported = false)
 	private RecipeCategory category;
 	
 	public long getId() {

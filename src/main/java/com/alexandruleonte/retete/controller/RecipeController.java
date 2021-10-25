@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,19 +24,24 @@ import com.alexandruleonte.retete.ReteteApplication;
 import com.alexandruleonte.retete.model.Recipe;
 import com.alexandruleonte.retete.model.RecipeCategory;
 import com.alexandruleonte.retete.repository.RecipeRepository;
+import com.alexandruleonte.retete.service.StorageService;
 
 @RestController
 public class RecipeController {
-	/*
+	
 	private static final Logger logger =
 			LoggerFactory.getLogger(ReteteApplication.class);
+	private final StorageService storageService;
+	
+	@Autowired
+	public RecipeController(StorageService storageService) {
+		this.storageService = storageService;
+	}
 	
 	@PostMapping(value="/api/recipe/saveImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public String newCategory(@RequestParam(value = "image", required = true) MultipartFile image) {
-		logger.info("*************************************************");
 		
-		
-		logger.info(image.getName());
+		storageService.store(image); 
 	    return "ok";
-    }*/
+    }
 }
