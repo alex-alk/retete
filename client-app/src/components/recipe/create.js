@@ -16,7 +16,7 @@ class CategoryCreate extends Component {
       name: "",
       content: "",
       recipeCategs: [],
-      photoSrc: "",
+      photo: "",
       editorState: EditorState.createEmpty(),
     };
 
@@ -29,56 +29,40 @@ class CategoryCreate extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-
-    // fetch(SERVER_URL + "api/recipes", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     name: this.state.name,
-    //     content: this.state.content,
-    //     category: {id: this.state.categoryId},
-    //     photoSrc: 'filled in the backend',
-    //   }),
-    // }).then(() => {
-    //   this.props.history.push("/admin/recipes");
-    // });
-
     const formData = new FormData();
-    formData.append("image", this.state.photoSrc);
-    console.log("state: ");
-    console.log(this.state.photoSrc);
+    formData.append("image", this.state.photo);
+    formData.append(
+      "recipe",
+      JSON.stringify({
+        name: this.state.name,
+        content: this.state.content,
+        category: { id: this.state.categoryId },
+      })
+    );
 
-    fetch(SERVER_URL + "api/recipe/saveImage", {
+    fetch(SERVER_URL + "api/recipe/save", {
       method: "POST",
-      
+
       body: formData,
-    }).then(() => {
-      console.log(formData);
-      //this.props.history.push("/admin/recipes");
-    }).catch((err) => console.error(err));;
+    })
+      .then(() => {
+        this.props.history.push("/admin/recipes");
+      })
+      .catch((err) => console.error(err));
   }
 
   handleChange(event) {
     const target = event.target;
-    let value = target.type === "checkbox" ? target.checked : target.value;
+    let value = target.value;
     const name = target.name;
-    if (name === "photoSrc") {
-
-      let value = target.files[0];
-        this.setState({
-          [name]: value,
-        });
-      
-    } else {
-      this.setState({
-        [name]: value,
-      });
+    if (name === "photo") {
+      value = target.files[0];
     }
-
-    
+    this.setState({
+      [name]: value,
+    });
   }
+
   onEditorStateChange = (editorState) => {
     this.setState({
       editorState,
@@ -106,7 +90,8 @@ class CategoryCreate extends Component {
               <input type="text" name="name" onChange={this.handleChange} />
             </div>
             <div className="form-group mb-4">
-              Photo: <input type="file" name="photoSrc" onChange={this.handleChange} />
+              Photo:{" "}
+              <input type="file" name="photo" onChange={this.handleChange} />
             </div>
             <div id="editor-wrapper">
               <Editor
@@ -125,6 +110,7 @@ class CategoryCreate extends Component {
       </div>
     );
   }
+
   componentDidMount() {
     document.title = "Create recipe | Rețete";
     fetch(SERVER_URL + "api/recipeCategories")

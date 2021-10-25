@@ -1,5 +1,6 @@
 package com.alexandruleonte.retete.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -25,9 +26,6 @@ import com.alexandruleonte.retete.ReteteApplication;
 public class FileSystemStorageService implements StorageService {
 
 	private final Path rootLocation;
-	
-	private static final Logger logger =
-			LoggerFactory.getLogger(ReteteApplication.class);
 
 	@Autowired
 	public FileSystemStorageService(StorageProperties properties) {
@@ -35,13 +33,13 @@ public class FileSystemStorageService implements StorageService {
 	}
 
 	@Override
-	public void store(MultipartFile file) {
+	public void store(MultipartFile file, long id) {
 		try {
 			if (file.isEmpty()) {
 				throw new StorageException("Failed to store empty file.");
 			}
 			Path destinationFile = this.rootLocation.resolve(
-					Paths.get(file.getOriginalFilename()))
+					Paths.get("recipe" + id + ".jpg"))
 					.normalize().toAbsolutePath();
 			
 			if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
@@ -99,6 +97,17 @@ public class FileSystemStorageService implements StorageService {
 	@Override
 	public void deleteAll() {
 		FileSystemUtils.deleteRecursively(rootLocation.toFile());
+	}
+	
+	@Override
+	public void delete(long id) {
+		
+		Path filePath = Paths.get(rootLocation + "/recipe" + id + ".jpg");
+		try {
+			Files.delete(filePath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

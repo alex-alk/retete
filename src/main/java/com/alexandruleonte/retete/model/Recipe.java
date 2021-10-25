@@ -16,9 +16,6 @@ public class Recipe {
 	private String name;
 	private String content;
 	
-	@Column(length=100)
-	private String photoSrc;
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@RestResource(exported = false)
 	private RecipeCategory category;
@@ -44,14 +41,6 @@ public class Recipe {
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	public String getPhotoSrc() {
-		return photoSrc;
-	}
-
-	public void setPhotoSrc(String photoSrc) {
-		this.photoSrc = photoSrc;
 	}
 	
 	public User getUser() {

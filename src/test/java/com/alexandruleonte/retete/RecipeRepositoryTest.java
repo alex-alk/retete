@@ -33,7 +33,6 @@ public class RecipeRepositoryTest {
 		Recipe r = new Recipe();
 		r.setContent("contentawdwa");
 		r.setName("user recipe");
-		r.setPhotoSrc("fotosrcasdas");
 		r.setUser(user);
 		
 		entityManager.persistAndFlush(r);
@@ -52,13 +51,11 @@ public class RecipeRepositoryTest {
 		Recipe r = new Recipe();
 		r.setContent("contentawdwa");
 		r.setName("user recipe");
-		r.setPhotoSrc("fotosrcasdas");
 		r.setUser(user);
 		
 		Recipe r2 = new Recipe();
 		r2.setContent("contentawdwa");
 		r2.setName("user recipe");
-		r2.setPhotoSrc("fotosrcasdas");
 		r2.setUser(user);
 		
 		entityManager.persistAndFlush(r);
