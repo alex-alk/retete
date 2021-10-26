@@ -38,15 +38,10 @@ public class ReteteApplication {
 		User user = new User();
 		user.setUsername("user");
 		user.setPassword("$2a$04$1.YhMIgNX/8TkCKGFUONWO1waedKhQ5KrnB30fl0Q01QKqmzLf.Zi");
-		user.setRole(User.USER);
+		user.setRole(User.ADMIN);
 		
-		User user2 = new User();
-		user2.setUsername("admin");
-		user2.setPassword("$2a$04$KNLUwOWHVQZVpXyMBNc7JOzbLiBjb9Tk9bP7KNcPI12ICuvzXQQKG");
-		user2.setRole(User.ADMIN);
 		
 		urepository.save(user);
-		urepository.save(user2);
 		
 		RecipeCategory categ = new RecipeCategory();
 		categ.setName("Bauturi");
@@ -59,16 +54,11 @@ public class ReteteApplication {
 		r.setUser(user);
 		r.setCategory(categ);
 		
-		Recipe r2 = new Recipe();
-		r2.setContent("aawdwad");
-		r2.setName("admin recipe");
-		r2.setUser(user2);
-		r2.setCategory(categ);
+
 		logger.info("data inserted");
 		
 		return args -> {
 			repository.save(r);
-			repository.save(r2);
 		};
 	}
 	

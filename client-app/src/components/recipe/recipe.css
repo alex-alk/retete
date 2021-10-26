@@ -1,8 +1,8 @@
 .editor-draft {
-    height: 275px !important;
+    height: 400px;
     border: 1px solid #d3d3d3;
-    padding: 5px !important;
-    border-radius: 2px !important;
+    padding: 5px;
+    border-radius: 2px;
 }
 .toolbar-draft {
     border: 1px solid #d3d3d3;
