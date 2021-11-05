@@ -29,12 +29,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		//auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+		auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
 	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().cors().and().authorizeRequests().anyRequest().permitAll();
+		//http.csrf().disable().cors().and().authorizeRequests().anyRequest().permitAll();
 		/*
 		http.csrf().disable().cors().and().authorizeRequests()
 			.antMatchers(HttpMethod.POST, "/login").permitAll()
@@ -45,6 +45,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			// Filter for other requests to check JWT in header
 			.addFilterBefore(new AuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 			*/
+		
+		
+		// from spring.io
+		http.csrf().disable().cors().and()
+		.authorizeRequests()
+			.antMatchers("/home","/css/*").permitAll()
+			.anyRequest().authenticated()
+			.and()
+		.formLogin()
+			.loginPage("/login")
+			.defaultSuccessUrl("/", true)
+			.permitAll()
+			.and()
+		.logout()
+			.permitAll();
 	}
 	
 	@Bean

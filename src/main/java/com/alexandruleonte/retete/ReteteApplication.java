@@ -36,8 +36,9 @@ public class ReteteApplication {
 	@Bean
 	CommandLineRunner runner(){
 		User user = new User();
-		user.setUsername("user");
-		user.setPassword("$2a$04$1.YhMIgNX/8TkCKGFUONWO1waedKhQ5KrnB30fl0Q01QKqmzLf.Zi");
+		user.setUsername("admin");
+		//user.setPassword("$2a$04$1.YhMIgNX/8TkCKGFUONWO1waedKhQ5KrnB30fl0Q01QKqmzLf.Zi");
+		user.setPassword("$2a$10$2ItG.isHYuHnf384zrfQA.D3NXLYHAOhSmi9hj.aJPXy0IAyVxozy");
 		user.setRole(User.ADMIN);
 		
 		

@@ -1,0 +1,49 @@
+.page-content {
+    padding: 30px 0;
+    margin-left: 280px;
+}
+
+.page-content img {
+    max-width: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+    .page-content {
+        padding: 0 10px;
+        clear:left;
+        margin-left: 0;
+    }
+}
+
+.page-title {
+    font-size: 24px;
+    font-family: "Open Sans",sans-serif;
+}
+aside .active {
+    font-weight: bold;
+}
+
+.note-frame {
+    max-width: 760px;
+}
+.login-form {
+    max-width: 350px;
+    margin: 200px auto;
+    padding: 15px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
+#page-logo {
+    color: white;
+    font-size: 27px;
+}
+.input-text {
+    max-width: 200px
+}
+.note-editor .dropdown-toggle::after {
+    all: unset;
+}
+
+.note-editor .note-dropdown-menu, .note-editor .note-modal-footer {
+    box-sizing: content-box;
+}

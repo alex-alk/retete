@@ -1,0 +1,24 @@
+<head th:replace="fragments/head"></head>
+
+
+<div class="login-form">
+	<div th:if="${param.error}">
+        Invalid username and password.
+    </div>
+    <div th:if="${param.logout}">
+        You have been logged out.
+    </div>
+    <form th:action="@{/login}" method="post" class="g-3" id="form">
+        <div class="mb-3">
+            <label>Username:</label>
+            <input class="form-control" name="username">
+        </div>
+        <div class="mb-3">
+            <label>Password:</label>
+            <input class="form-control" name="password">
+        </div>
+        <button class="btn btn-primary">Login</button>
+    </form>
+</div>
+
+<footer th:replace="fragments/footer"></footer>
