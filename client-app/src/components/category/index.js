@@ -61,9 +61,16 @@ class CategoryIndex extends Component {
   }
   componentDidMount() {
     document.title = "Admin | Rețete";
+    console.log("1");
     fetch(SERVER_URL + "api/recipeCategories")
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.redirected) {
+          window.location.href = response.url;
+        }  
+        response.json();
+      })
       .then((responseData) => {
+        console.log(responseData);
         this.setState({
           recipeCategs: responseData._embedded.recipeCategories,
         });
