@@ -18,6 +18,7 @@ class CategoryEdit extends Component {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        'Authorization': sessionStorage.getItem("jwt")
       },
       body: JSON.stringify({ id: this.state.id, name: this.state.name }),
     }).then(() => {

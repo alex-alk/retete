@@ -3,21 +3,23 @@ import { SERVER_URL } from "../../constants";
 import { withRouter } from "react-router";
 
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState, convertToRaw } from "draft-js";
+import { EditorState, convertToRaw, ContentState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from "draftjs-to-html";
+import htmlToDraft from "html-to-draftjs";
 import "./recipe.css";
 
-class RecipeCreate extends Component {
+class RecipeEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryId: "http://localhost:8080/api/recipeCategories/1",
-      name: "",
+      categoryId: 0,
       content: "",
+      name: "",
       recipeCategs: [],
       photo: "",
       editorState: EditorState.createEmpty(),
+      recipe: {}
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -34,14 +36,15 @@ class RecipeCreate extends Component {
     formData.append(
       "recipe",
       JSON.stringify({
+        id: this.state.recipe.id,
         name: this.state.name,
         content: this.state.content,
         category: { id: this.state.categoryId },
       })
     );
 
-    fetch(SERVER_URL + "api/recipe/save", {
-      method: "POST",
+    fetch(SERVER_URL + "api/recipe/update", {
+      method: "PATCH",
       headers: {'Authorization': sessionStorage.getItem("jwt")},
       body: formData,
     })
@@ -75,7 +78,7 @@ class RecipeCreate extends Component {
     return (
       <div>
         <div className="page-content">
-          <h1 className="page-title">Add recipe</h1>
+          <h1 className="page-title">Edit recipe</h1>
           <form id="form-chapter" method="POST" onSubmit={this.handleSubmit}>
             Category:{" "}
             <select className="mb-4" onChange={this.handleChange}>
@@ -86,11 +89,12 @@ class RecipeCreate extends Component {
               ))}
             </select>
             <div className="form-group mb-4">
-              Name:{" "}
-              <input type="text" name="name" onChange={this.handleChange} />
+              Name:&nbsp;
+              <input type="text" value={this.state.name} name="name" onChange={this.handleChange} />
             </div>
             <div className="form-group mb-4">
-              Photo:{" "}
+              {this.state.recipe.id && <img src={SERVER_URL + "images/recipe" + this.state.recipe.id + ".jpg"} alt="img" />}
+              Photo:&nbsp;
               <input type="file" name="photo" onChange={this.handleChange} />
             </div>
             <div id="editor-wrapper">
@@ -112,16 +116,28 @@ class RecipeCreate extends Component {
   }
 
   componentDidMount() {
-    document.title = "Create recipe | Rețete";
-    fetch(SERVER_URL + "api/recipeCategories")
+    document.title = "Create recipe | Recipes";
+
+    fetch(SERVER_URL + "api/recipeCategories/")
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
-          recipeCategs: responseData._embedded.recipeCategories,
-          categoryId: responseData._embedded.recipeCategories[0].id,
+          recipeCategs: responseData._embedded.recipeCategories
+        });
+      })
+      .catch((err) => console.error(err));
+    
+    fetch(SERVER_URL + "api/recipes/" + this.props.match.params.id)
+      .then((response) => response.json())
+      .then((responseData) => {
+        this.setState({
+          recipe: responseData,
+          categoryId: responseData.category.id,
+          name: responseData.name,
+          editorState: EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(responseData.content)))
         });
       })
       .catch((err) => console.error(err));
   }
 }
-export default withRouter(RecipeCreate);
+export default withRouter(RecipeEdit);

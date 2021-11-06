@@ -38,12 +38,6 @@
 }
 
 
-
-.page-content {
-  padding: 30px 0;
-  margin-left: 280px;
-}
-
 .page-content img {
   max-width: 100%;
 }
@@ -87,5 +81,10 @@ aside .active {
 
 .note-editor .note-dropdown-menu, .note-editor .note-modal-footer {
   box-sizing: content-box;
+}
+
+button.nav-link {
+  background-color: inherit;
+  border: none;
 }
 

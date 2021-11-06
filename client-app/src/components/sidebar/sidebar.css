@@ -90,3 +90,8 @@ main {
 aside {
     float: left;
 }
+
+.page-content {
+  padding: 30px 0;
+  margin-left: 280px;
+}

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SERVER_URL } from "../constants";
+import { SERVER_URL } from "../../constants";
 
 class Recipes extends Component {
     constructor(props) {

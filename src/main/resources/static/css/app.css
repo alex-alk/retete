@@ -47,3 +47,7 @@ aside .active {
 .note-editor .note-dropdown-menu, .note-editor .note-modal-footer {
     box-sizing: content-box;
 }
+button.nav-link {
+  background-color: inherit;
+  border: none;
+}

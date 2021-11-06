@@ -2,7 +2,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 
 import Navbar from "./components/navbar/navbar";
 import Sidebar from "./components/sidebar/sidebar";
@@ -12,26 +12,42 @@ import NotFound from "./not-found";
 import CategoryEdit from "./components/category/edit";
 import RecipeCreate from "./components/recipe/create";
 import RecipeList from "./components/recipe/list";
+import RecipeEdit from "./components/recipe/edit";
+import Login from "./components/login/login";
+import Auth from "./auth";
 
 function App() {
-  
+  if (!Auth.isAuthenticated) {
+    return (
+      <Router>
+        <div>
+          <Navbar />
+          <Redirect to='/login'/>
+          <Switch>
+          <Route exact path="/login" component={Login} />
+          </Switch>
+        </div>
+      </Router>)
+  }
   return (
     <Router>
       <div>
-      <Navbar />
-        <Sidebar />
+        <Navbar />
+        {window.location.pathname !== '/login' && <Sidebar />}
         <Switch>
-          <Route exact path="/admin"  />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/admin" />
 
           <Route exact path="/admin/category" component={CategoryIndex} />
           <Route exact path="/admin/category/create" component={CategoryCreate} />
           <Route exact path="/admin/category/:id/edit" component={CategoryEdit} />
           <Route exact path="/admin/recipes" component={RecipeList} />
           <Route exact path="/admin/recipes/create" component={RecipeCreate} />
+          <Route exact path="/admin/recipes/:id/edit" component={RecipeEdit} />
 
           <Route path="*">
             <NotFound />
-            </Route>
+          </Route>
         </Switch>
       </div>
     </Router>

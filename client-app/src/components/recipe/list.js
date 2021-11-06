@@ -17,6 +17,7 @@ class RecipeList extends Component {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        'Authorization': sessionStorage.getItem("jwt")
       },
       body: JSON.stringify({ id: event.target.id.value }),
     }).then(() => {
@@ -32,7 +33,7 @@ class RecipeList extends Component {
         <td>
           <Link
             className="btn btn-primary"
-            to={"/admin/category/" + recipe.id + "/edit"}
+            to={"/admin/recipes/" + recipe.id + "/edit"}
           >Edit
           </Link>
           <form style={{display: "inline"}} onSubmit={this.handleSubmit}>

@@ -18,6 +18,7 @@ class CategoryCreate extends Component {
         method: 'POST',
       headers: {
         "Content-Type": "application/json",
+        'Authorization': sessionStorage.getItem("jwt")
       },
       body: JSON.stringify({ name: this.state.value }),
     }).then(() => {

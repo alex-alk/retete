@@ -34,32 +34,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		//http.csrf().disable().cors().and().authorizeRequests().anyRequest().permitAll();
-		/*
+		//restrict all routes that start with admin
 		http.csrf().disable().cors().and().authorizeRequests()
-			.antMatchers(HttpMethod.POST, "/login").permitAll()
-			.anyRequest().authenticated().and()
-			// Filter for the api/login requests
-			.addFilterBefore(new LoginFilter("/login", authenticationManager()),
+			//.antMatchers(HttpMethod.GET, "*").permitAll()
+			.antMatchers(HttpMethod.GET).permitAll()
+			.anyRequest().authenticated()
+			.and()
+			// Filter for the api/login requests 
+			.addFilterBefore(new LoginFilter("/api/login", authenticationManager()),
 					UsernamePasswordAuthenticationFilter.class)
 			// Filter for other requests to check JWT in header
 			.addFilterBefore(new AuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-			*/
+			
 		
 		
-		// from spring.io
-		http.csrf().disable().cors().and()
-		.authorizeRequests()
-			.antMatchers("/home","/css/*").permitAll()
-			.anyRequest().authenticated()
-			.and()
-		.formLogin()
-			.loginPage("/login")
-			.defaultSuccessUrl("/", true)
-			.permitAll()
-			.and()
-		.logout()
-			.permitAll();
+		 //from spring.io
+//		http.csrf().disable().cors().and()
+//		.authorizeRequests()
+//			.antMatchers("/home","/css/*").permitAll()
+//			.anyRequest().authenticated()
+//			.and()
+//		.formLogin()
+//			.loginPage("/login")
+//			.defaultSuccessUrl("/", true)
+//			.permitAll()
+//			.and()
+//		.logout()
+//			.permitAll();
 	}
 	
 	@Bean

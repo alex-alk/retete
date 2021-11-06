@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -60,7 +61,20 @@ public class RecipeController {
 	    return "ok";
     }
 	
-	@DeleteMapping(value="/api/recipes/{id}")
+	@PatchMapping(value="/api/recipe/update")
+	public String update(@RequestParam(value = "image", required = false) MultipartFile image, 
+			@RequestParam(value = "recipe", required = true) String recipe) throws JsonMappingException, JsonProcessingException {
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		Recipe recipeNew = objectMapper.readValue(recipe, Recipe.class);
+		
+		Recipe insertedRecipe = repo.save(recipeNew);
+		if (image != null) storageService.store(image, insertedRecipe.getId());
+		
+	    return "ok";
+    }
+	
+	@DeleteMapping(value="/api/recipe/{id}")
 	public String delete(@PathVariable long id) {
 		Optional<Recipe> recipe = repo.findById(id);
 		storageService.delete(id);

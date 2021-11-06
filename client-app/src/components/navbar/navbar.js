@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Auth from "../../auth";
 
 class Navbar extends Component {
     render() {
@@ -26,10 +27,11 @@ class Navbar extends Component {
                                 <a className="nav-link active" href="/#">Dashboard</a>
                             </li>*/}
                             <li className="nav-item">
-                                {/*<form>
-                                    <a href="/#" className="nav-link active">Logout</a>
-                                </form>*/}
-                                <a href="/#" className="nav-link active">Login</a>
+                                {Auth.isAuthenticated &&  
+                                <form onSubmit={this.handleLogout}>
+                                    <button type="submit" className="nav-link active">Logout</button>
+                                </form>}
+                                {!Auth.isAuthenticated && <a href="/#" className="nav-link active">Login</a>}
                             </li>{/*
                             <li className="nav-item">
                                 <a href="/#" className="nav-link active">Register</a>
@@ -39,6 +41,9 @@ class Navbar extends Component {
                 </div>
             </nav>
         );
+    }
+    handleLogout() {
+        Auth.logout();
     }
 }
 export default Navbar;
