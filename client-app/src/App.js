@@ -22,9 +22,9 @@ function App() {
       <Router>
         <div>
           <Navbar />
-          <Redirect to='/login'/>
+          <Redirect to='/admin/login'/>
           <Switch>
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/admin/login" component={Login} />
           </Switch>
         </div>
       </Router>)
@@ -33,10 +33,10 @@ function App() {
     <Router>
       <div>
         <Navbar />
-        {window.location.pathname !== '/login' && <Sidebar />}
+        {window.location.pathname !== '/admin/login' && <Sidebar />}
         <Switch>
-          <Route exact path="/login" component={Login} />
           <Route exact path="/admin" />
+          <Route exact path="/admin/login" component={Login} />
 
           <Route exact path="/admin/category" component={CategoryIndex} />
           <Route exact path="/admin/category/create" component={CategoryCreate} />

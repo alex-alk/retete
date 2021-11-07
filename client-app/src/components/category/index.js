@@ -29,6 +29,7 @@ class CategoryIndex extends Component {
     const categs = this.state.recipeCategs.map((recipeCateg, index) => (
       <tr key={index}>
         <td>{recipeCateg.name}</td>
+        <td>{recipeCateg.color}</td>
         <td>
           <Link
             className="btn btn-primary"
@@ -51,6 +52,7 @@ class CategoryIndex extends Component {
             <thead>
               <tr>
                 <td>Name</td>
+                <td>Color</td>
                 <td>Action</td>
               </tr>
             </thead>

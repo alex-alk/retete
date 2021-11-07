@@ -46,6 +46,7 @@ public class ReteteApplication {
 		
 		RecipeCategory categ = new RecipeCategory();
 		categ.setName("Bauturi");
+		categ.setColor("yellow");
 		categRepo.save(categ);
 		
 		

@@ -6,7 +6,7 @@ class CategoryEdit extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { id: 0, name: "" };
+    this.state = { id: 0, name: '', color: '' };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,14 +20,14 @@ class CategoryEdit extends Component {
         "Content-Type": "application/json",
         'Authorization': sessionStorage.getItem("jwt")
       },
-      body: JSON.stringify({ id: this.state.id, name: this.state.name }),
+      body: JSON.stringify({ id: this.state.id, name: this.state.name, color: this.state.color }),
     }).then(() => {
       this.props.history.push('/admin/category');
     });
   }
 
   handleChange(event) {
-    this.setState({ name: event.target.value });
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   render() {
@@ -51,6 +51,15 @@ class CategoryEdit extends Component {
               />
             </div>
             <div className="col-auto">
+              <input
+                type="text"
+                className="form-control"
+                name="color"
+                value={this.state.color}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="col-auto">
               <button type="submit" className="btn btn-primary">
                 Submit
               </button>
@@ -68,6 +77,7 @@ class CategoryEdit extends Component {
         this.setState({
           id: responseData.id,
           name: responseData.name,
+          color: responseData.color
         });
       })
       .catch((err) => console.error(err));

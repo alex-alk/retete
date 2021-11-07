@@ -6,7 +6,7 @@ class CategoryCreate extends Component {
   
   constructor(props) {
     super(props);
-    this.state = {value: ''};
+    this.state = {name: '', color: ''};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,14 +20,14 @@ class CategoryCreate extends Component {
         "Content-Type": "application/json",
         'Authorization': sessionStorage.getItem("jwt")
       },
-      body: JSON.stringify({ name: this.state.value }),
+      body: JSON.stringify({ name: this.state.name, color: this.state.color }),
     }).then(() => {
       this.props.history.push('/admin/category');
     });
   }
 
   handleChange(event) {
-    this.setState({ value: event.target.value });
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   render() {
@@ -46,6 +46,16 @@ class CategoryCreate extends Component {
                 type="text"
                 className="form-control"
                 name="name"
+                placeholder="name"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="col-auto">
+              <input
+                type="text"
+                className="form-control"
+                name="color"
+                placeholder="color"
                 onChange={this.handleChange}
               />
             </div>

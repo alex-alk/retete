@@ -81,7 +81,7 @@ class RecipeEdit extends Component {
           <h1 className="page-title">Edit recipe</h1>
           <form id="form-chapter" method="POST" onSubmit={this.handleSubmit}>
             Category:{" "}
-            <select className="mb-4" onChange={this.handleChange}>
+            <select className="mb-4" name="categoryId" onChange={this.handleChange}>
               {this.state.recipeCategs.map((recipeCateg, index) => (
                 <option value={recipeCateg.id} key={index}>
                   {recipeCateg.name}
@@ -93,7 +93,7 @@ class RecipeEdit extends Component {
               <input type="text" value={this.state.name} name="name" onChange={this.handleChange} />
             </div>
             <div className="form-group mb-4">
-              {this.state.recipe.id && <img src={SERVER_URL + "images/recipe" + this.state.recipe.id + ".jpg"} alt="img" />}
+              {this.state.recipe.id && <img src={SERVER_URL + "uploads/recipe" + this.state.recipe.id + ".jpg"} alt="img" />}
               Photo:&nbsp;
               <input type="file" name="photo" onChange={this.handleChange} />
             </div>

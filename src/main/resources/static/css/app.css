@@ -26,28 +26,92 @@ aside .active {
 .note-frame {
     max-width: 760px;
 }
-.login-form {
-    max-width: 350px;
-    margin: 200px auto;
-    padding: 15px;
-    border: 1px solid lightgray;
-    border-radius: 5px;
-}
+
 #page-logo {
     color: white;
     font-size: 27px;
 }
-.input-text {
-    max-width: 200px
-}
-.note-editor .dropdown-toggle::after {
-    all: unset;
-}
 
-.note-editor .note-dropdown-menu, .note-editor .note-modal-footer {
-    box-sizing: content-box;
-}
 button.nav-link {
   background-color: inherit;
   border: none;
 }
+
+.container-main {
+	max-width: 727px;
+	margin: 20px auto;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.container-main h3 {
+	color: white;
+}
+.container-main img {
+	max-width: 330px;
+	border-radius: 20px 20px 0 0;
+	border-top: 1px dotted gray;
+	border-left: 1px dotted gray;
+	border-right: 1px dotted gray;
+}
+.recipe-card {
+	width: 330px;
+	margin-right: 5px;
+	margin-left: 5px;
+	transition: all .2s ease-in-out;
+}
+
+.recipe-card:hover {
+	transform: scale(1.01);
+}
+
+.recipe-card a {
+	text-decoration: none;
+	color: white;
+}
+
+.recipe-card a:hover {
+	color: white;
+}
+
+.card-group {
+	display: flex;
+	margin-top: 8px;
+	padding: 8px;
+}
+.recipe-title {
+	padding: 10px;
+}
+
+h4 {
+	font-size: 20px;
+}
+.description h4 {
+	margin-bottom: 0;
+}
+
+.description {
+	padding: 10px;
+}
+
+.bg-yellow {
+	background-color: yellow;
+}
+.border-yellow {
+	border: 5px solid yellow;
+}
+
+.bg-red {
+	background-color: red;
+}
+.border-red {
+	border: 5px solid red;
+}
+.bg-green {
+	background-color: green;
+}
+.border-green {
+	border: 5px solid green;
+}
+
+
+

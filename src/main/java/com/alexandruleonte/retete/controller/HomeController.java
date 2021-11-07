@@ -15,6 +15,10 @@ public class HomeController {
 	@GetMapping("/")
 	public String index(Model model) {
 		model.addAttribute("recipeCategs", recipeCategory.findAll());
-		return "index";
+		return "index"; 
+	}
+	@GetMapping("/admin/**")
+	public String adminHome() { 
+		return "build/index"; 
 	}
 }
