@@ -46,21 +46,28 @@ public class ReteteApplication {
 		
 		RecipeCategory categ = new RecipeCategory();
 		categ.setName("Bauturi");
-		categ.setColor("yellow");
+		categ.setColor("green");
 		categRepo.save(categ);
 		
 		
 		Recipe r = new Recipe();
-		r.setContent("contentawdwa");
-		r.setName("user recipe");
+		r.setContent("Limonada");
+		r.setName("Limonada");
 		r.setUser(user);
 		r.setCategory(categ);
+		
+		Recipe r2 = new Recipe();
+		r2.setContent("Ceai");
+		r2.setName("Ceai");
+		r2.setUser(user);
+		r2.setCategory(categ);
 		
 
 		logger.info("data inserted");
 		
 		return args -> {
 			repository.save(r);
+			repository.save(r2);
 		};
 	}
 	

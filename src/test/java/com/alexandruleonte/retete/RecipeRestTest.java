@@ -23,10 +23,10 @@ public class RecipeRestTest {
 	@Test
 	public void testAuthentication() throws Exception {
 		// Testing authentication with correct credentials
-		this.mockMvc.perform(post("/login").content("{\"username\":\"admin\", \"password\":\"admin\"}")).
+		this.mockMvc.perform(post("/api/login").content("{\"username\":\"admin\", \"password\":\"admin\"}")).
 			andDo(print()).andExpect(status().isOk());
 		// Testing authentication with wrong credentials
-		this.mockMvc.perform(post("/login").content("{\"username\":\"admin\", \"password\":\"wrongpwd\"}")).
+		this.mockMvc.perform(post("/api/login").content("{\"username\":\"admin\", \"password\":\"wrongpwd\"}")).
 			andDo(print()).andExpect(status().is4xxClientError());
 	}
 }
