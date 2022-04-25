@@ -1,0 +1,5 @@
+CREATE TABLE recipe_categories (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(100) NOT NULL,
+	color VARCHAR(30) NOT NULL
+)

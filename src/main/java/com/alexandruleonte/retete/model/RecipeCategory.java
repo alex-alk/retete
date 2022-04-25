@@ -6,9 +6,8 @@ import javax.persistence.*;
 
 import org.springframework.data.rest.core.annotation.RestResource;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+// TODO: add validators
 @Entity
 @Table(name = "recipe_categories")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})

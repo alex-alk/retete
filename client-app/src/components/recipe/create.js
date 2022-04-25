@@ -12,8 +12,9 @@ class RecipeCreate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryId: "http://localhost:8080/api/recipeCategories/1",
+      categoryId: SERVER_URL + 'api/recipeCategories/1',
       name: "",
+      description: "",
       content: "",
       recipeCategs: [],
       photo: "",
@@ -36,6 +37,7 @@ class RecipeCreate extends Component {
       JSON.stringify({
         name: this.state.name,
         content: this.state.content,
+        description: this.state.description,
         category: { id: this.state.categoryId },
       })
     );
@@ -86,11 +88,15 @@ class RecipeCreate extends Component {
               ))}
             </select>
             <div className="form-group mb-4">
-              Name:{" "}
+              Name:&nbsp;
               <input type="text" name="name" onChange={this.handleChange} />
             </div>
             <div className="form-group mb-4">
-              Photo:{" "}
+              Description:&nbsp;
+              <input style={{width: "100%"}} type="text" name="description" onChange={this.handleChange} />
+            </div>
+            <div className="form-group mb-4">
+              Photo:&nbsp;
               <input type="file" name="photo" onChange={this.handleChange} />
             </div>
             <div id="editor-wrapper">

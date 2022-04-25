@@ -2,16 +2,21 @@
 
 <div class="container-main">
 	<div th:each="categ : ${recipeCategs}" class="container-recipe mb-4"  th:classappend="${'border-' + categ.color}">
-		<h3 th:text="${categ.name}" class="text-center recipe-title" th:classappend="${'bg-' + categ.color}"></h3>
-		<div class="card-group">
-			<div th:each="recipe : ${categ.recipes}" class="recipe-card">
-				<a th:href="@{'/reteta/' + ${recipe.id}}"><img th:src="@{'/uploads/recipe' + ${recipe.id} + '.jpg'}">
-					<div class="description mb-3" th:classappend="${'bg-' + categ.color}">
-						<h4 class="text-left" th:text="${recipe.name}"></h4>
-						<div>ou, bacon, ceapa</div>
-					</div>
-				</a>
-			</div>
+		<div class="categ-title">
+			<h3 th:text="${categ.name}" class="text-center categ-name" th:classappend="${'bg-' + categ.color}"></h3>
+		</div>
+		<div class="recipe-group">
+			
+			<a th:href="@{'/reteta/' + ${recipe.id}}" th:each="recipe : ${categ.recipes}" class="recipe-card">
+				<div class="description mb-3" th:classappend="${'bg-' + categ.color}">
+					<h4 class="text-left" th:text="${recipe.name}"></h4>
+					<div th:text="${recipe.description}" class="description-div"></div>
+				</div>
+				<div class="image-div">
+					<img th:src="@{'/uploads/recipe' + ${recipe.id} + '.jpg'}">
+				</div>
+			</a>
+			
 		</div>
 	</div>
 </div>

@@ -16,6 +16,7 @@ class RecipeEdit extends Component {
       categoryId: 0,
       content: "",
       name: "",
+      description: '',
       recipeCategs: [],
       photo: "",
       editorState: EditorState.createEmpty(),
@@ -39,6 +40,7 @@ class RecipeEdit extends Component {
         id: this.state.recipe.id,
         name: this.state.name,
         content: this.state.content,
+        description: this.state.description,
         category: { id: this.state.categoryId },
       })
     );
@@ -93,6 +95,10 @@ class RecipeEdit extends Component {
               <input type="text" value={this.state.name} name="name" onChange={this.handleChange} />
             </div>
             <div className="form-group mb-4">
+              Description:&nbsp;
+              <input type="text" value={this.state.description} name="description" onChange={this.handleChange} />
+            </div>
+            <div className="form-group mb-4">
               {this.state.recipe.id && <img src={SERVER_URL + "uploads/recipe" + this.state.recipe.id + ".jpg"} alt="img" />}
               Photo:&nbsp;
               <input type="file" name="photo" onChange={this.handleChange} />
@@ -134,6 +140,7 @@ class RecipeEdit extends Component {
           recipe: responseData,
           categoryId: responseData.category.id,
           name: responseData.name,
+          description: responseData.description,
           editorState: EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(responseData.content)))
         });
       })

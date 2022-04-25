@@ -36,7 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		//restrict all routes that start with admin
 		http.csrf().disable().cors().and().authorizeRequests()
-			//.antMatchers(HttpMethod.GET, "*").permitAll()
+			.antMatchers("/").permitAll()
+			.antMatchers("/api/login").permitAll()
 			.antMatchers(HttpMethod.GET).permitAll()
 			.anyRequest().authenticated()
 			.and()
@@ -45,22 +46,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					UsernamePasswordAuthenticationFilter.class)
 			// Filter for other requests to check JWT in header
 			.addFilterBefore(new AuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-			
-		
-		
-		 //from spring.io
-//		http.csrf().disable().cors().and()
-//		.authorizeRequests()
-//			.antMatchers("/home","/css/*").permitAll()
-//			.anyRequest().authenticated()
-//			.and()
-//		.formLogin()
-//			.loginPage("/login")
-//			.defaultSuccessUrl("/", true)
-//			.permitAll()
-//			.and()
-//		.logout()
-//			.permitAll();
 	}
 	
 	@Bean
@@ -72,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		config.setAllowedHeaders(Arrays.asList("*"));
 		//config.setAllowCredentials(true);
 		config.applyPermitDefaultValues();
-		source.registerCorsConfiguration("/**", config);
+		source.registerCorsConfiguration("/**", config); 
 		return source;
 	}
 }
