@@ -3,10 +3,9 @@ import { SERVER_URL } from "../../constants";
 import { withRouter } from "react-router";
 
 class CategoryCreate extends Component {
-  
   constructor(props) {
     super(props);
-    this.state = {name: '', color: ''};
+    this.state = { name: "", color: "" };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -14,15 +13,15 @@ class CategoryCreate extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    fetch(SERVER_URL + "api/recipeCategories", {
-        method: 'POST',
+    fetch(SERVER_URL + "/api/recipeCategories", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
-        'Authorization': sessionStorage.getItem("jwt")
+        Authorization: sessionStorage.getItem("jwt"),
       },
       body: JSON.stringify({ name: this.state.name, color: this.state.color }),
     }).then(() => {
-      this.props.history.push('/admin/category');
+      this.props.history.push("/admin/category");
     });
   }
 

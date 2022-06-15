@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.alexandruleonte.retete.model.User;
-import com.alexandruleonte.retete.repository.UserRepository;
+import com.alexandruleonte.retete.user.User;
+import com.alexandruleonte.retete.user.UserRepository;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {

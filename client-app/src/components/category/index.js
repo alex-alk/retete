@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { SERVER_URL } from "../../constants";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 
 class CategoryIndex extends Component {
@@ -13,11 +13,11 @@ class CategoryIndex extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    fetch(SERVER_URL + "api/recipeCategories/" + event.target.id.value, {
+    fetch(SERVER_URL + "/api/recipeCategories/" + event.target.id.value, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        'Authorization': sessionStorage.getItem("jwt")
+        Authorization: sessionStorage.getItem("jwt"),
       },
       body: JSON.stringify({ id: event.target.id.value }),
     }).then(() => {
@@ -34,11 +34,14 @@ class CategoryIndex extends Component {
           <Link
             className="btn btn-primary"
             to={"/admin/category/" + recipeCateg.id + "/edit"}
-          >Edit
+          >
+            Edit
           </Link>
           <form style={{ display: "inline" }} onSubmit={this.handleSubmit}>
             <input type="hidden" name="id" value={recipeCateg.id} />
-            <button className="btn btn-danger" type="submit">Delete</button>
+            <button className="btn btn-danger" type="submit">
+              Delete
+            </button>
           </form>
         </td>
       </tr>
@@ -64,16 +67,15 @@ class CategoryIndex extends Component {
   }
   componentDidMount() {
     document.title = "Admin | Rețete";
-    fetch(SERVER_URL + "api/recipeCategories", {
+    fetch(SERVER_URL + "/api/recipeCategories", {
       //headers: {'Authorization': sessionStorage.getItem("jwt")}
     })
       .then((response) => {
-        response.json()
-          .then((responseData) => {
-            this.setState({
-              recipeCategs: responseData._embedded.recipeCategories,
-            });
-          })
+        response.json().then((responseData) => {
+          this.setState({
+            recipeCategs: responseData._embedded.recipeCategories,
+          });
+        });
       })
       .catch((err) => console.error(err));
   }

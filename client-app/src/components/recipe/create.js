@@ -12,7 +12,7 @@ class RecipeCreate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryId: SERVER_URL + 'api/recipeCategories/1',
+      categoryId: SERVER_URL + "/api/recipeCategories/1",
       name: "",
       description: "",
       content: "",
@@ -42,9 +42,9 @@ class RecipeCreate extends Component {
       })
     );
 
-    fetch(SERVER_URL + "api/recipe/save", {
+    fetch(SERVER_URL + "/api/recipe/save", {
       method: "POST",
-      headers: {'Authorization': sessionStorage.getItem("jwt")},
+      headers: { Authorization: sessionStorage.getItem("jwt") },
       body: formData,
     })
       .then(() => {
@@ -93,7 +93,12 @@ class RecipeCreate extends Component {
             </div>
             <div className="form-group mb-4">
               Description:&nbsp;
-              <input style={{width: "100%"}} type="text" name="description" onChange={this.handleChange} />
+              <input
+                style={{ width: "100%" }}
+                type="text"
+                name="description"
+                onChange={this.handleChange}
+              />
             </div>
             <div className="form-group mb-4">
               Photo:&nbsp;
@@ -119,7 +124,7 @@ class RecipeCreate extends Component {
 
   componentDidMount() {
     document.title = "Create recipe | Rețete";
-    fetch(SERVER_URL + "api/recipeCategories")
+    fetch(SERVER_URL + "/api/recipeCategories")
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({

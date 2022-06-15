@@ -6,7 +6,7 @@ class CategoryEdit extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { id: 0, name: '', color: '' };
+    this.state = { id: 0, name: "", color: "" };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -14,15 +14,19 @@ class CategoryEdit extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    fetch(SERVER_URL + "api/recipeCategories/" + this.props.match.params.id, {
+    fetch(SERVER_URL + "/api/recipeCategories/" + this.props.match.params.id, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        'Authorization': sessionStorage.getItem("jwt")
+        Authorization: sessionStorage.getItem("jwt"),
       },
-      body: JSON.stringify({ id: this.state.id, name: this.state.name, color: this.state.color }),
+      body: JSON.stringify({
+        id: this.state.id,
+        name: this.state.name,
+        color: this.state.color,
+      }),
     }).then(() => {
-      this.props.history.push('/admin/category');
+      this.props.history.push("/admin/category");
     });
   }
 
@@ -71,13 +75,13 @@ class CategoryEdit extends Component {
   }
   componentDidMount() {
     document.title = "Editare rețetă | Rețete";
-    fetch(SERVER_URL + "api/recipeCategories/" + this.props.match.params.id)
+    fetch(SERVER_URL + "/api/recipeCategories/" + this.props.match.params.id)
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
           id: responseData.id,
           name: responseData.name,
-          color: responseData.color
+          color: responseData.color,
         });
       })
       .catch((err) => console.error(err));

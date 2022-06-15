@@ -37,12 +37,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		//restrict all routes that start with admin
 		http.csrf().disable().cors().and().authorizeRequests()
 			.antMatchers("/").permitAll()
-			.antMatchers("/api/login").permitAll()
+			.antMatchers("/api/users/login").permitAll()
+			.antMatchers("/api/users/register").permitAll()
 			.antMatchers(HttpMethod.GET).permitAll()
 			.anyRequest().authenticated()
 			.and()
 			// Filter for the api/login requests 
-			.addFilterBefore(new LoginFilter("/api/login", authenticationManager()),
+			.addFilterBefore(new LoginFilter("/api/users/login", authenticationManager()),
 					UsernamePasswordAuthenticationFilter.class)
 			// Filter for other requests to check JWT in header
 			.addFilterBefore(new AuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

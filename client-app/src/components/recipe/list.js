@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { SERVER_URL } from "../../constants";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 
 class RecipeList extends Component {
@@ -13,11 +13,11 @@ class RecipeList extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    fetch(SERVER_URL + "api/recipes/" + event.target.id.value, {
+    fetch(SERVER_URL + "/api/recipes/" + event.target.id.value, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        'Authorization': sessionStorage.getItem("jwt")
+        Authorization: sessionStorage.getItem("jwt"),
       },
       body: JSON.stringify({ id: event.target.id.value }),
     }).then(() => {
@@ -34,11 +34,14 @@ class RecipeList extends Component {
           <Link
             className="btn btn-primary"
             to={"/admin/recipes/" + recipe.id + "/edit"}
-          >Edit
+          >
+            Edit
           </Link>
-          <form style={{display: "inline"}} onSubmit={this.handleSubmit}>
+          <form style={{ display: "inline" }} onSubmit={this.handleSubmit}>
             <input type="hidden" name="id" value={recipe.id} />
-            <button className="btn btn-danger" type="submit">Delete</button>
+            <button className="btn btn-danger" type="submit">
+              Delete
+            </button>
           </form>
         </td>
       </tr>
@@ -64,7 +67,7 @@ class RecipeList extends Component {
   }
   componentDidMount() {
     document.title = "Admin | Rețete";
-    fetch(SERVER_URL + "api/recipes")
+    fetch(SERVER_URL + "/api/recipes")
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({

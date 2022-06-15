@@ -16,11 +16,11 @@ class RecipeEdit extends Component {
       categoryId: 0,
       content: "",
       name: "",
-      description: '',
+      description: "",
       recipeCategs: [],
       photo: "",
       editorState: EditorState.createEmpty(),
-      recipe: {}
+      recipe: {},
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -45,9 +45,9 @@ class RecipeEdit extends Component {
       })
     );
 
-    fetch(SERVER_URL + "api/recipe/update", {
+    fetch(SERVER_URL + "/api/recipe/update", {
       method: "PATCH",
-      headers: {'Authorization': sessionStorage.getItem("jwt")},
+      headers: { Authorization: sessionStorage.getItem("jwt") },
       body: formData,
     })
       .then(() => {
@@ -83,7 +83,11 @@ class RecipeEdit extends Component {
           <h1 className="page-title">Edit recipe</h1>
           <form id="form-chapter" method="POST" onSubmit={this.handleSubmit}>
             Category:{" "}
-            <select className="mb-4" name="categoryId" onChange={this.handleChange}>
+            <select
+              className="mb-4"
+              name="categoryId"
+              onChange={this.handleChange}
+            >
               {this.state.recipeCategs.map((recipeCateg, index) => (
                 <option value={recipeCateg.id} key={index}>
                   {recipeCateg.name}
@@ -92,14 +96,34 @@ class RecipeEdit extends Component {
             </select>
             <div className="form-group mb-4">
               Name:&nbsp;
-              <input type="text" value={this.state.name} name="name" onChange={this.handleChange} />
+              <input
+                type="text"
+                value={this.state.name}
+                name="name"
+                onChange={this.handleChange}
+              />
             </div>
             <div className="form-group mb-4">
               Description:&nbsp;
-              <input type="text" value={this.state.description} name="description" onChange={this.handleChange} />
+              <input
+                type="text"
+                value={this.state.description}
+                name="description"
+                onChange={this.handleChange}
+              />
             </div>
             <div className="form-group mb-4">
-              {this.state.recipe.id && <img src={SERVER_URL + "uploads/recipe" + this.state.recipe.id + ".jpg"} alt="img" />}
+              {this.state.recipe.id && (
+                <img
+                  src={
+                    SERVER_URL +
+                    "uploads/recipe" +
+                    this.state.recipe.id +
+                    ".jpg"
+                  }
+                  alt="img"
+                />
+              )}
               Photo:&nbsp;
               <input type="file" name="photo" onChange={this.handleChange} />
             </div>
@@ -124,16 +148,16 @@ class RecipeEdit extends Component {
   componentDidMount() {
     document.title = "Create recipe | Recipes";
 
-    fetch(SERVER_URL + "api/recipeCategories/")
+    fetch(SERVER_URL + "/api/recipeCategories/")
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
-          recipeCategs: responseData._embedded.recipeCategories
+          recipeCategs: responseData._embedded.recipeCategories,
         });
       })
       .catch((err) => console.error(err));
-    
-    fetch(SERVER_URL + "api/recipes/" + this.props.match.params.id)
+
+    fetch(SERVER_URL + "/api/recipes/" + this.props.match.params.id)
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
@@ -141,7 +165,9 @@ class RecipeEdit extends Component {
           categoryId: responseData.category.id,
           name: responseData.name,
           description: responseData.description,
-          editorState: EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(responseData.content)))
+          editorState: EditorState.createWithContent(
+            ContentState.createFromBlockArray(htmlToDraft(responseData.content))
+          ),
         });
       })
       .catch((err) => console.error(err));
