@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Objects;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserControllerTest {
@@ -45,11 +47,16 @@ public class UserControllerTest {
         User user = createUser();
         ResponseEntity<User> response = testRestTemplate.postForEntity(API_PREFIX + "/register", user, User.class);
 
-        if (response.getBody() != null) {
-            assertThat(response.getBody().getUsername()).isEqualTo(user.getUsername());
-        }
+        // todo: in a single assert
+        assertThat(Objects.requireNonNull(response.getBody()).getUsername()).isEqualTo(user.getUsername());
         assertThat(response.getBody().getPassword()).isNotNull();
-        assertThat(response.getBody().getPassword()).isNotEqualTo(user.getPassword());
+    }
+
+    @Test
+    public void postUser_whenUserIsValid_passwordIsHashedInDatabase() {
+        User user = createUser();
+        ResponseEntity<User> response = testRestTemplate.postForEntity(API_PREFIX + "/register", user, User.class);
+        assertThat(Objects.requireNonNull(response.getBody()).getPassword()).isNotEqualTo(user.getPassword());
     }
 
     private User createUser() {
