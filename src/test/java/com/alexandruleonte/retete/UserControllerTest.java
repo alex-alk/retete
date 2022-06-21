@@ -1,8 +1,6 @@
 package com.alexandruleonte.retete;
 
 import com.alexandruleonte.retete.user.User;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.alexandruleonte.retete.user.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Objects;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -30,38 +30,79 @@ public class UserControllerTest {
 
     @Test
     public void postUser_whenUserIsValid_receiveCreated() {
-        User user = createUser();
-        ResponseEntity<User> response = testRestTemplate.postForEntity(API_PREFIX + "/register", user, User.class);
+        User user = createValidUser();
+        ResponseEntity<Object> response = registerUser(user, Object.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
 
     @Test
     public void postUser_whenUserIsValid_userSavedToDatabase() {
-        User user = createUser();
-        testRestTemplate.postForEntity(API_PREFIX + "/register", user, User.class);
+        User user = createValidUser();
+        registerUser(user, Object.class);
         assertThat(userRepository.count()).isEqualTo(1);
     }
 
     @Test
     public void postUser_whenUserIsValid_receiveUser() {
-        User user = createUser();
-        ResponseEntity<User> response = testRestTemplate.postForEntity(API_PREFIX + "/register", user, User.class);
+        User user = createValidUser();
+        ResponseEntity<User> response = registerUser(user, User.class);
 
-        // todo: in a single assert
         assertThat(Objects.requireNonNull(response.getBody()).getUsername()).isEqualTo(user.getUsername());
-        assertThat(response.getBody().getPassword()).isNotNull();
     }
 
     @Test
     public void postUser_whenUserIsValid_passwordIsHashedInDatabase() {
-        User user = createUser();
-        ResponseEntity<User> response = testRestTemplate.postForEntity(API_PREFIX + "/register", user, User.class);
+        User user = createValidUser();
+        ResponseEntity<User> response = registerUser(user, User.class);
         assertThat(Objects.requireNonNull(response.getBody()).getPassword()).isNotEqualTo(user.getPassword());
     }
 
-    private User createUser() {
+    @Test
+    public void postUser_whenUserHasNullUsername_receiveBadRequest() {
+        User user = createValidUser();
+        user.setUsername(null);
+        ResponseEntity<Object> response = registerUser(user, Object.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void postUser_whenUserHasNullDisplayName_receiveBadRequest() {
+        User user = createValidUser();
+        user.setUsername(null);
+        ResponseEntity<Object> response = registerUser(user, Object.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void postUser_whenUserHasNullPassword_receiveBadRequest() {
+        User user = createValidUser();
+        user.setPassword(null);
+        ResponseEntity<Object> response = registerUser(user, Object.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void postUser_whenUsernameIsNotAnEmail_receiveBadRequest() {
+        User user = createValidUser();
+        user.setUsername("abcdef");
+        ResponseEntity<Object> response = registerUser(user, Object.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+//    @Test
+//    public void postUser_whenUserIsInvalid_receiveApiError() {
+//        User user = new User();
+//        //ResponseEntity<ApiError> response = registerUser(user, ApiError.class);
+//    }
+
+    private <T> ResponseEntity<T> registerUser(Object request, Class<T> response) {
+        return testRestTemplate.postForEntity(API_PREFIX + "/register", request, response);
+    }
+
+    private User createValidUser() {
         User user = new User();
-        user.setUsername("user");
+        user.setUsername("user@user.com");
+        user.setDisplayName("user");
         user.setPassword("password");
         return user;
     }

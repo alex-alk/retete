@@ -1,27 +1,28 @@
 package com.alexandruleonte.retete.user;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
-// TODO: add validation
 @Entity
 @Table(name = "users")
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
-
-	public User() {
-
-	}
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 
 	@Column(length=200)
+	@Email(message = "Username needs to be an email")
+	@NotBlank(message = "Username is required")
 	private String username;
 
+	@NotBlank(message = "Password is required")
 	private String password;
 
 	@Column(length=200)
+	@NotBlank(message = "Please enter your full name")
 	private String displayName;
 
 	public long getId() {

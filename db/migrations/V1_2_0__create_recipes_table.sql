@@ -1,5 +1,0 @@
-CREATE TABLE recipes (
-	id INT AUTO_INCREMENT PRIMARY KEY,
-	content VARCHAR(500),
-	description VARCHAR(2000)
-)
