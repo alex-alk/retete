@@ -2,8 +2,6 @@ package com.alexandruleonte.retete.user;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 // TODO: add validation
 @Entity
 @Table(name = "users")
@@ -22,6 +20,9 @@ public class User {
 	private String username;
 
 	private String password;
+
+	@Column(length=200)
+	private String displayName;
 
 	public long getId() {
 		return id;
@@ -45,5 +46,13 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 }

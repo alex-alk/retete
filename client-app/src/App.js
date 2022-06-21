@@ -20,9 +20,14 @@ import RecipeList from "./components/recipe/list";
 import RecipeEdit from "./components/recipe/edit";
 import Login from "./components/login/login";
 import Auth from "./Auth";
-import Register from "./components/register/Register";
+import Register from "./pages/Register";
+import * as apiCalls from "./api/apiCalls";
 
 function App() {
+  const actions = {
+    register: apiCalls.register,
+  };
+
   if (!Auth.isAuthenticated) {
     return (
       <Router>
@@ -33,7 +38,9 @@ function App() {
           )}
           <Switch>
             <Route exact path="/admin/login" component={Login} />
-            <Route exact path="/admin/register" component={Register} />
+            <Route exact path="/admin/register">
+              <Register actions={actions} />
+            </Route>
           </Switch>
         </div>
       </Router>
