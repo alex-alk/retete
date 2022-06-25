@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alexandruleonte.retete.model.Recipe;
 import com.alexandruleonte.retete.repository.RecipeRepository;
-import com.alexandruleonte.retete.service.StorageService;
+import com.alexandruleonte.retete.storage.StorageService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

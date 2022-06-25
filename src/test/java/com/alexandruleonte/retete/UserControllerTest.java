@@ -89,14 +89,17 @@ public class UserControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
-//    @Test
-//    public void postUser_whenUserIsInvalid_receiveApiError() {
-//        User user = new User();
-//        //ResponseEntity<ApiError> response = registerUser(user, ApiError.class);
-//    }
+    @Test
+    public void postUser_whenAnotherUserHasSameUsername_receiveBadRequest() {
+        userRepository.save(createValidUser());
+        User user = createValidUser();
+
+        ResponseEntity<Object> response =  registerUser(user, Object.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
 
     private <T> ResponseEntity<T> registerUser(Object request, Class<T> response) {
-        return testRestTemplate.postForEntity(API_PREFIX + "/register", request, response);
+        return testRestTemplate.postForEntity(API_PREFIX, request, response);
     }
 
     private User createValidUser() {

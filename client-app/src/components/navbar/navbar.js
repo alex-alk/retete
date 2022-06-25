@@ -4,7 +4,7 @@ import Auth from "../../Auth";
 class Navbar extends Component {
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
             <i id="page-logo" className="fas fa-utensils"></i>

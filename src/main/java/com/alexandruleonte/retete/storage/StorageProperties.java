@@ -1,4 +1,4 @@
-package com.alexandruleonte.retete.service;
+package com.alexandruleonte.retete.storage;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;

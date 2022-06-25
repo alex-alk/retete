@@ -1,4 +1,4 @@
-package com.alexandruleonte.retete.service;
+package com.alexandruleonte.retete.storage;
 
 public class StorageException extends RuntimeException {
 

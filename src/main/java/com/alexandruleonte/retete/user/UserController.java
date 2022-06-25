@@ -1,5 +1,6 @@
 package com.alexandruleonte.retete.user;
 
+import com.alexandruleonte.retete.errors.BadRequest;
 import com.alexandruleonte.retete.service.MapValidationErrorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,20 +14,26 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
     UserService userService;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     MapValidationErrorService mapValidationErrorService;
 
-    @PostMapping("/register")
+    @PostMapping("/users")
     public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
-        //userValidator.validate(user, result);
         ResponseEntity<?> errorMap = mapValidationErrorService.validate(result);
         if(errorMap != null) return errorMap;
+
+        if (userRepository.findByUsername(user.getUsername()) != null) {
+            return new BadRequest().makeResponse("username", "Username already exists");
+        }
 
         User newUser = userService.save(user);
 

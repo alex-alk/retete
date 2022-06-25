@@ -1,13 +1,17 @@
 package com.alexandruleonte.retete.user;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.Collection;
 
 @Entity
 @Table(name = "users")
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class User {
+public class User implements UserDetails {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -37,8 +41,38 @@ public class User {
 		return username;
 	}
 
+	@Override
+	@Transient
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	@Transient
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	@Transient
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	@Transient
+	public boolean isEnabled() {
+		return true;
+	}
+
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	@Override
+	@Transient
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return null;
 	}
 
 	public String getPassword() {

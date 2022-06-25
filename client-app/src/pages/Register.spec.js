@@ -2,8 +2,8 @@ import React from "react";
 import {
   render,
   fireEvent,
-  waitForDomChange,
   waitFor,
+  waitForElement,
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { Register } from "./Register";
@@ -207,6 +207,114 @@ describe("Register page", () => {
       fireEvent.click(button);
       const spinner = queryByText("Loading...");
       await waitFor(() => expect(spinner).not.toBeInTheDocument());
+    });
+
+    it("displays validation error for displayName when error is received for the field", async () => {
+      const actions = {
+        register: jest.fn().mockRejectedValue({
+          response: {
+            data: {
+              displayName: "Please enter your full name",
+            },
+          },
+        }),
+      };
+      const { queryByText } = setupForSubmit({ actions });
+      fireEvent.click(button);
+
+      await waitFor(() =>
+        expect(queryByText("Please enter your full name")).toBeInTheDocument()
+      );
+    });
+
+    it("enables the signup button when password and repeat password have the same value", () => {
+      setupForSubmit();
+      expect(button).not.toBeDisabled();
+    });
+    it("disables the signup button when password repeat does not match the password", () => {
+      setupForSubmit();
+      fireEvent.change(passwordConfirmInput, changeEvent("new-pass"));
+      expect(button).toBeDisabled();
+    });
+    it("disables the signup button when password does not match to password repeat", () => {
+      setupForSubmit();
+      fireEvent.change(passwordInput, changeEvent("new-pass"));
+      expect(button).toBeDisabled();
+    });
+    it("displays error style for password repeat input when password repeat missmatch", () => {
+      const { queryByText } = setupForSubmit();
+      fireEvent.change(passwordConfirmInput, changeEvent("new-pass"));
+      const missmatchWarning = queryByText("Does not match the password");
+      expect(missmatchWarning).toBeInTheDocument();
+    });
+    it("displays error style for password repeat input when password repeat missmatch", () => {
+      const { queryByText } = setupForSubmit();
+      fireEvent.change(passwordInput, changeEvent("new-pass"));
+      const missmatchWarning = queryByText("Does not match the password");
+      expect(missmatchWarning).toBeInTheDocument();
+    });
+
+    it("hides the validation error when user changes the content of displayName", async () => {
+      const actions = {
+        register: jest.fn().mockRejectedValue({
+          response: {
+            data: {
+              displayName: "Please enter your full name",
+            },
+          },
+        }),
+      };
+      const { queryByText } = setupForSubmit({ actions });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        queryByText("Please enter your full name");
+      });
+      fireEvent.change(displayNameInput, changeEvent("name updated"));
+      const errorMessage = queryByText("Please enter your full name");
+      expect(errorMessage).not.toBeInTheDocument();
+    });
+
+    it("hides the validation error when user changes the content of username", async () => {
+      const actions = {
+        register: jest.fn().mockRejectedValue({
+          response: {
+            data: {
+              username: "Username is required",
+            },
+          },
+        }),
+      };
+      const { queryByText } = setupForSubmit({ actions });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        queryByText("Username is required");
+      });
+      fireEvent.change(usernameInput, changeEvent("username updated"));
+      const errorMessage = queryByText("Username is required");
+      expect(errorMessage).not.toBeInTheDocument();
+    });
+
+    it("hides the validation error when user changes the content of password", async () => {
+      const actions = {
+        register: jest.fn().mockRejectedValue({
+          response: {
+            data: {
+              password: "Password is required",
+            },
+          },
+        }),
+      };
+      const { queryByText } = setupForSubmit({ actions });
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        queryByText("Password is required");
+      });
+      fireEvent.change(passwordInput, changeEvent("password updated"));
+      const errorMessage = queryByText("Password is required");
+      expect(errorMessage).not.toBeInTheDocument();
     });
   });
 });

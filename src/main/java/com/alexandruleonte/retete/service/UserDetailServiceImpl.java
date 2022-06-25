@@ -1,14 +1,12 @@
 package com.alexandruleonte.retete.service;
 
+import com.alexandruleonte.retete.user.User;
+import com.alexandruleonte.retete.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import com.alexandruleonte.retete.user.User;
-import com.alexandruleonte.retete.user.UserRepository;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
@@ -18,11 +16,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User currentUser = repository.findByUsername(username);
-		UserDetails user = new org.springframework.security.core
-		.userdetails.User(username, currentUser.getPassword()
-		, true, true, true, true,
-		AuthorityUtils.createAuthorityList("Admin"));
+		User user = repository.findByUsername(username);
+
+		if (user == null) {
+			throw new UsernameNotFoundException("User not found");
+		}
 		return user;
 	}
 

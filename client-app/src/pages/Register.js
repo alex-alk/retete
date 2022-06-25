@@ -7,7 +7,6 @@ export class Register extends Component {
   constructor(props) {
     super(props);
 
-    this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -17,6 +16,8 @@ export class Register extends Component {
     password: "",
     confirmPassword: "",
     pendingApiCall: false,
+    errors: {},
+    passwordRepeatConfirmed: true,
   };
 
   onSubmit() {
@@ -32,7 +33,8 @@ export class Register extends Component {
         this.setState({ pendingApiCall: false });
       })
       .catch((error) => {
-        this.setState({ pendingApiCall: false });
+        let errors = error.response.data;
+        this.setState({ pendingApiCall: false, errors });
       });
 
     //event.preventDefault();
@@ -49,12 +51,43 @@ export class Register extends Component {
     // );
   }
 
-  onChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
-  }
+  onChangeDisplayName = (event) => {
+    const value = event.target.value;
+    const errors = { ...this.state.errors };
+    delete errors.displayName;
+    this.setState({ displayName: value, errors });
+  };
+
+  onChangeUsername = (event) => {
+    const value = event.target.value;
+    const errors = { ...this.state.errors };
+    delete errors.username;
+    this.setState({ username: value, errors });
+  };
+
+  onChangePasswordRepeat = (event) => {
+    const value = event.target.value;
+    const passwordRepeatConfirmed = this.state.password === value;
+    const errors = { ...this.state.errors };
+    errors.confirmPassword = passwordRepeatConfirmed
+      ? ""
+      : "Does not match the password";
+    this.setState({ confirmPassword: value, passwordRepeatConfirmed, errors });
+  };
+
+  onChangePassword = (event) => {
+    const value = event.target.value;
+    const passwordRepeatConfirmed = this.state.confirmPassword === value;
+    const errors = { ...this.state.errors };
+    delete errors.password;
+    errors.confirmPassword = passwordRepeatConfirmed
+      ? ""
+      : "Does not match the password";
+    this.setState({ password: value, passwordRepeatConfirmed, errors });
+  };
 
   render() {
-    let errors = {};
+    let errors = this.state.errors;
     return (
       <div className="register">
         <div className="container">
@@ -72,9 +105,9 @@ export class Register extends Component {
                     placeholder="Name"
                     name="displayName"
                     value={this.state.displayName}
-                    onChange={this.onChange}
+                    onChange={this.onChangeDisplayName}
                   />
-                  {errors.fullName && (
+                  {errors.displayName && (
                     <div className="invalid-feedback">{errors.displayName}</div>
                   )}
                 </div>
@@ -87,7 +120,7 @@ export class Register extends Component {
                     placeholder="Email Address (Username)"
                     name="username"
                     value={this.state.username}
-                    onChange={this.onChange}
+                    onChange={this.onChangeUsername}
                   />
                   {errors.username && (
                     <div className="invalid-feedback">{errors.username}</div>
@@ -102,7 +135,7 @@ export class Register extends Component {
                     placeholder="Password"
                     name="password"
                     value={this.state.password}
-                    onChange={this.onChange}
+                    onChange={this.onChangePassword}
                   />
                   {errors.password && (
                     <div className="invalid-feedback">{errors.password}</div>
@@ -117,7 +150,7 @@ export class Register extends Component {
                     placeholder="Confirm Password"
                     name="confirmPassword"
                     value={this.state.confirmPassword}
-                    onChange={this.onChange}
+                    onChange={this.onChangePasswordRepeat}
                   />
                   {errors.confirmPassword && (
                     <div className="invalid-feedback">
@@ -129,7 +162,10 @@ export class Register extends Component {
                   type="button"
                   className="btn btn-info btn-block mt-4"
                   onClick={this.onSubmit}
-                  disabled={this.state.pendingApiCall}
+                  disabled={
+                    this.state.pendingApiCall ||
+                    !this.state.passwordRepeatConfirmed
+                  }
                 >
                   {this.state.pendingApiCall && (
                     <div className="spinner-border spinner-border-sm text-light spinner-border mr-sm-1">
