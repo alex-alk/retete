@@ -1,7 +1,7 @@
 package com.alexandruleonte.retete.user;
 
 import com.alexandruleonte.retete.errors.BadRequest;
-import com.alexandruleonte.retete.service.MapValidationErrorService;
+import com.alexandruleonte.retete.errors.MapValidationErrorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

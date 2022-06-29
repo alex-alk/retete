@@ -1,4 +1,4 @@
-package com.alexandruleonte.retete.service;
+package com.alexandruleonte.retete.errors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

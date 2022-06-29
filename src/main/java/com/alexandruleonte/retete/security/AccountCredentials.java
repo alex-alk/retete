@@ -1,4 +1,4 @@
-package com.alexandruleonte.retete.payload;
+package com.alexandruleonte.retete.security;
 
 import javax.validation.constraints.NotBlank;
 

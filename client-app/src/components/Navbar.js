@@ -1,14 +1,15 @@
 import React, { Component } from "react";
-import Auth from "../../Auth";
+import { Link } from "react-router-dom";
+import Auth from "../Auth";
 
 class Navbar extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div className="container-fluid">
-          <a className="navbar-brand" href="/">
+          <Link className="navbar-brand" to="/">
             <i id="page-logo" className="fas fa-utensils"></i>
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -35,9 +36,9 @@ class Navbar extends Component {
                   </form>
                 )}
                 {!Auth.isAuthenticated && (
-                  <a href="/#" className="nav-link active">
+                  <Link to="/admin/login" className="nav-link active">
                     Login
-                  </a>
+                  </Link>
                 )}
               </li>
               {/*

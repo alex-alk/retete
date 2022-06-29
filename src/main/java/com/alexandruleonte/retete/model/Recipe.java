@@ -1,7 +1,10 @@
 package com.alexandruleonte.retete.model;
 
-import javax.persistence.*;
+import com.alexandruleonte.retete.category.RecipeCategory;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.rest.core.annotation.RestResource;
+
+import javax.persistence.*;
 // TODO: add validators
 @Entity
 @Table(name = "recipes")
@@ -19,6 +22,7 @@ public class Recipe {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@RestResource(exported = false)
+	@JsonIgnore
 	private RecipeCategory category;
 	
 	public long getId() {

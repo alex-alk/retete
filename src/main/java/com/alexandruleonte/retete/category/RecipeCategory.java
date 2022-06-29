@@ -1,12 +1,11 @@
-package com.alexandruleonte.retete.model;
+package com.alexandruleonte.retete.category;
 
-import java.util.List;
-
-import javax.persistence.*;
-
+import com.alexandruleonte.retete.model.Recipe;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.rest.core.annotation.RestResource;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.persistence.*;
+import java.util.List;
 // TODO: add validators
 @Entity
 @Table(name = "recipe_categories")

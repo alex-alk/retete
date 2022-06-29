@@ -117,8 +117,15 @@ h4 {
 .bg-green {
 	background-color: green;
 }
-.border-greens {
+.border-green {
 	border: 5px solid green;
+}
+
+.bg-blue {
+	background-color: blue;
+}
+.border-blue{
+	border: 5px solid blue;
 }
 
 

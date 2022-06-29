@@ -24,17 +24,17 @@ class Sidebar extends Component {
                 className="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
                 id="platforms-btn"
-                data-bs-target="#platforms"
+                data-bs-target="#categories"
                 aria-expanded="false"
               >
                 Categories
               </button>
-              <div className="collapse" id="platforms">
+              <div className="collapse" id="categories">
                 <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                   <li>
                     <Link
                       id="show-platforms-link"
-                      to="/admin/category"
+                      to="/admin/categories"
                       className="link-dark rounded"
                     >
                       Show categories
@@ -43,7 +43,7 @@ class Sidebar extends Component {
                   <li>
                     <Link
                       id="add-platform-link"
-                      to="/admin/category/create"
+                      to="/admin/categories/create"
                       className="link-dark rounded"
                     >
                       Add category
@@ -58,12 +58,12 @@ class Sidebar extends Component {
                 className="btn btn-toggle align-items-center rounded collapsed"
                 data-bs-toggle="collapse"
                 id="add-chapter-btn"
-                data-bs-target="#chapters"
+                data-bs-target="#recipes"
                 aria-expanded="false"
               >
                 Recipes
               </button>
-              <div className="collapse" id="chapters">
+              <div className="collapse" id="recipes">
                 <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                   <li>
                     <Link

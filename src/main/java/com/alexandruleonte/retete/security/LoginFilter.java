@@ -1,7 +1,5 @@
-package com.alexandruleonte.retete;
+package com.alexandruleonte.retete.security;
 
-import com.alexandruleonte.retete.payload.AccountCredentials;
-import com.alexandruleonte.retete.service.AuthenticationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

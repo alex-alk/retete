@@ -1,4 +1,4 @@
-package com.alexandruleonte.retete.payload;
+package com.alexandruleonte.retete.security;
 
 public class JWTLoginSuccessResponse {
     private boolean success;

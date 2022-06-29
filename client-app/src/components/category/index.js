@@ -33,7 +33,7 @@ class CategoryIndex extends Component {
         <td>
           <Link
             className="btn btn-primary"
-            to={"/admin/category/" + recipeCateg.id + "/edit"}
+            to={"/admin/categories/" + recipeCateg.id + "/edit"}
           >
             Edit
           </Link>
@@ -66,14 +66,14 @@ class CategoryIndex extends Component {
     );
   }
   componentDidMount() {
-    document.title = "Admin | Rețete";
+    document.title = "Admin | Recipes";
     fetch(SERVER_URL + "/api/recipeCategories", {
-      //headers: {'Authorization': sessionStorage.getItem("jwt")}
+      headers: { Authorization: localStorage.getItem("jwt") },
     })
       .then((response) => {
         response.json().then((responseData) => {
           this.setState({
-            recipeCategs: responseData._embedded.recipeCategories,
+            recipeCategs: responseData,
           });
         });
       })

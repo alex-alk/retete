@@ -1,7 +1,7 @@
 import { SERVER_URL } from "./constants";
 
 class Auth {
-  static isAuthenticated = sessionStorage.getItem("jwt") !== null;
+  static isAuthenticated = localStorage.getItem("jwt") !== null;
 
   static login(user, cbOk, cbError) {
     fetch(SERVER_URL + "/api/login", {
@@ -14,7 +14,7 @@ class Auth {
       .then((res) => {
         const jwtToken = res.headers.get("Authorization");
         if (jwtToken !== null) {
-          sessionStorage.setItem("jwt", jwtToken);
+          localStorage.setItem("jwt", jwtToken);
           cbOk();
         } else {
           cbError();
@@ -47,7 +47,7 @@ class Auth {
   }
 
   static logout() {
-    sessionStorage.removeItem("jwt");
+    localStorage.removeItem("jwt");
   }
 }
 export default Auth;

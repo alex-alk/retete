@@ -316,6 +316,23 @@ describe("Register page", () => {
       const errorMessage = queryByText("Password is required");
       expect(errorMessage).not.toBeInTheDocument();
     });
+
+    it("redirects to homepage after successful signup", async () => {
+      const actions = {
+        register: jest.fn().mockResolvedValue({ data: { token: "123" } }),
+      };
+
+      const history = {
+        push: jest.fn(),
+      };
+
+      setupForSubmit({ actions, history });
+      fireEvent.click(button);
+
+      await waitFor(() =>
+        expect(history.push).toHaveBeenCalledWith("/admin/home")
+      );
+    });
   });
 });
 

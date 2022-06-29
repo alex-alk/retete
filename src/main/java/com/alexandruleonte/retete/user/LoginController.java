@@ -1,9 +1,9 @@
 package com.alexandruleonte.retete.user;
 
-import com.alexandruleonte.retete.payload.AccountCredentials;
-import com.alexandruleonte.retete.payload.JWTLoginSuccessResponse;
+import com.alexandruleonte.retete.security.AccountCredentials;
+import com.alexandruleonte.retete.security.JWTLoginSuccessResponse;
 import com.alexandruleonte.retete.security.JwtTokenProvider;
-import com.alexandruleonte.retete.service.MapValidationErrorService;
+import com.alexandruleonte.retete.errors.MapValidationErrorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,12 +38,11 @@ public class LoginController {
 											  BindingResult bindingResult) {
 		ResponseEntity<?> errorMap = mapValidationErrorService.validate(bindingResult);
 		if(errorMap != null) return errorMap;
-		System.out.println(accountCredentials.getPassword() + " " + accountCredentials.getUsername());
 		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(
-						accountCredentials.getUsername(),
-						accountCredentials.getPassword()
-				)
+			new UsernamePasswordAuthenticationToken(
+				accountCredentials.getUsername(),
+				accountCredentials.getPassword()
+			)
 		);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = TOKEN_PREFIX + tokenProvider.generateToken(authentication);

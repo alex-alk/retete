@@ -1,6 +1,6 @@
 package com.alexandruleonte.retete;
 
-import com.alexandruleonte.retete.payload.AccountCredentials;
+import com.alexandruleonte.retete.security.AccountCredentials;
 import com.alexandruleonte.retete.user.User;
 import com.alexandruleonte.retete.user.UserRepository;
 import com.alexandruleonte.retete.user.UserService;

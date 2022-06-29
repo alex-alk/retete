@@ -1,9 +1,5 @@
-package com.alexandruleonte.retete.service;
+package com.alexandruleonte.retete.storage;
 
-import com.alexandruleonte.retete.storage.StorageException;
-import com.alexandruleonte.retete.storage.StorageFileNotFoundException;
-import com.alexandruleonte.retete.storage.StorageProperties;
-import com.alexandruleonte.retete.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;

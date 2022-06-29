@@ -21,7 +21,7 @@ class CategoryCreate extends Component {
       },
       body: JSON.stringify({ name: this.state.name, color: this.state.color }),
     }).then(() => {
-      this.props.history.push("/admin/category");
+      this.props.history.push("/admin/categories");
     });
   }
 
@@ -50,13 +50,16 @@ class CategoryCreate extends Component {
               />
             </div>
             <div className="col-auto">
-              <input
-                type="text"
-                className="form-control"
+              <select
+                className="form-select"
                 name="color"
-                placeholder="color"
                 onChange={this.handleChange}
-              />
+              >
+                <option value="red">Red</option>
+                <option value="green">Green</option>
+                <option value="yellow">Yellow</option>
+                <option value="blue">Blue</option>
+              </select>
             </div>
             <div className="col-auto">
               <button type="submit" className="btn btn-primary">

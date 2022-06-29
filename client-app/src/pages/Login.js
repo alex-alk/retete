@@ -1,68 +1,128 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import classnames from "classnames";
 import Auth from "../Auth";
 
-class Login extends Component {
+export default class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onClickLogin = this.onClickLogin.bind(this);
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    Auth.login(
-      this.state,
-      () => {
-        window.location.href = "/admin";
-      },
-      () => {
-        toast.warn("Check your username and password", {
-          position: toast.POSITION.BOTTOM_LEFT,
-        });
-      }
-    );
-  }
+  state = {
+    username: "",
+    password: "",
+    pendingApiCall: false,
+    errors: {},
+  };
 
-  handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+  onChangeUsername = (event) => {
+    const value = event.target.value;
+    this.setState({
+      username: value,
+      errors: {},
+    });
+  };
+
+  onChangePassword = (event) => {
+    const value = event.target.value;
+    this.setState({
+      password: value,
+      errors: {},
+    });
+  };
+
+  onClickLogin(event) {
+    this.setState({ pendingApiCall: true });
+
+    const body = {
+      username: this.state.username,
+      password: this.state.password,
+    };
+    this.props.actions
+      .postLogin(body)
+      .then((response) => {
+        this.setState({ pendingApiCall: false });
+        if (response.data && response.data.token) {
+          localStorage.setItem("jwt", response.data.token);
+          this.props.history.push("/admin/home");
+        }
+      })
+      .catch((error) => {
+        let errors = error.response.data;
+        this.setState({ errors, pendingApiCall: false });
+      });
   }
 
   render() {
+    let errors = this.state.errors;
+    let disabledSubmit = false;
+
+    if (this.state.username === "" || this.state.password === "") {
+      disabledSubmit = true;
+    }
+
     return (
-      <div className="page-content">
-        <form
-          action="/api/login"
-          method="post"
-          className="g-3 login-form"
-          id="form"
-          onSubmit={this.handleSubmit}
-        >
-          <div className="mb-3">
-            <label>Username:</label>
-            <input
-              className="form-control"
-              name="username"
-              onChange={this.handleChange}
-            />
+      <div className="login">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-8 m-auto">
+              <h1 className="display-4 text-center">Log In</h1>
+              <form onSubmit={this.onSubmit}>
+                <div className="form-group">
+                  <input
+                    type="email"
+                    className={classnames("form-control form-control-lg mb-3", {
+                      "is-invalid": errors.username,
+                    })}
+                    placeholder="Email Address"
+                    name="username"
+                    value={this.state.username}
+                    onChange={this.onChangeUsername}
+                  />
+                  {errors.username && (
+                    <div className="invalid-feedback">{errors.username}</div>
+                  )}
+                </div>
+                <div className="form-group">
+                  <input
+                    type="password"
+                    className={classnames("form-control form-control-lg mb-3", {
+                      "is-invalid": errors.password,
+                    })}
+                    placeholder="Password"
+                    name="password"
+                    value={this.state.password}
+                    onChange={this.onChangePassword}
+                  />
+                  {errors.password && (
+                    <div className="invalid-feedback">{errors.password}</div>
+                  )}
+                </div>
+                {errors.apiError && (
+                  <div className="col-12 mb-3">
+                    <div className="alert alert-danger">{errors.apiError}</div>
+                  </div>
+                )}
+                <button
+                  onClick={this.onClickLogin}
+                  type="button"
+                  className="btn btn-primary btn-block"
+                  disabled={disabledSubmit || this.state.pendingApiCall}
+                >
+                  {this.state.pendingApiCall && (
+                    <div className="spinner-border spinner-border-sm text-light spinner-border mr-sm-1">
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  )}
+                  Submit
+                </button>
+              </form>
+            </div>
           </div>
-          <div className="mb-3">
-            <label>Password:</label>
-            <input
-              className="form-control"
-              name="password"
-              onChange={this.handleChange}
-            />
-          </div>
-          <ToastContainer autoClose={5000} />
-          <button className="btn btn-primary" type="submit">
-            Login
-          </button>
-        </form>
+        </div>
       </div>
     );
   }
@@ -70,4 +130,15 @@ class Login extends Component {
     document.title = "Login | Retete";
   }
 }
-export default withRouter(Login);
+
+Login.defaultProps = {
+  actions: {
+    postLogin: () => {
+      return new Promise((resolve, reject) => {
+        resolve({});
+      });
+    },
+  },
+};
+
+//export default Login;
