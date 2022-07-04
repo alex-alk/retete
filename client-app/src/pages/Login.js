@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import classnames from "classnames";
-import Auth from "../Auth";
+import { connect } from "react-redux";
+import * as authActions from "../redux/authActions";
+import { withRouter } from "react-router-dom";
 
-export default class Login extends Component {
+export class Login extends Component {
   constructor(props) {
     super(props);
 
@@ -34,7 +35,7 @@ export default class Login extends Component {
     });
   };
 
-  onClickLogin(event) {
+  onClickLogin() {
     this.setState({ pendingApiCall: true });
 
     const body = {
@@ -45,6 +46,7 @@ export default class Login extends Component {
       .postLogin(body)
       .then((response) => {
         this.setState({ pendingApiCall: false });
+
         if (response.data && response.data.token) {
           localStorage.setItem("jwt", response.data.token);
           this.props.history.push("/admin/home");
@@ -109,6 +111,7 @@ export default class Login extends Component {
                 <button
                   onClick={this.onClickLogin}
                   type="button"
+                  id="login-btn"
                   className="btn btn-primary btn-block"
                   disabled={disabledSubmit || this.state.pendingApiCall}
                 >
@@ -139,6 +142,15 @@ Login.defaultProps = {
       });
     },
   },
+  dispatch: () => {},
 };
 
-//export default Login;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: {
+      postLogin: (body) => dispatch(authActions.loginHandler(body)),
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(withRouter(Login));

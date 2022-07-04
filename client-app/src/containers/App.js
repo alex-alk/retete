@@ -2,12 +2,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { Route, Switch, Redirect, useLocation } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/sidebar/sidebar";
@@ -18,56 +13,62 @@ import CategoryEdit from "../components/category/edit";
 import RecipeCreate from "../components/recipe/create";
 import RecipeList from "../components/recipe/list";
 import RecipeEdit from "../components/recipe/edit";
-import Login from "../pages/Login";
-import Auth from "../Auth";
 import Register from "../pages/Register";
-import * as apiCalls from "../api/apiCalls";
+import Login from "../pages/Login";
 import AdminHome from "../pages/AdminHome";
+import setJWTToken from "../securityUtils";
+import { useSelector, useStore } from "react-redux";
+import jwt_decode from "jwt-decode";
+
+const jwtToken = localStorage.getItem("jwt");
 
 function App() {
-  const actions = {
-    register: apiCalls.register,
-    postLogin: apiCalls.login,
-  };
+  const store = useStore();
+  if (jwtToken) {
+    setJWTToken(jwtToken);
+    const decode_jwtToken = jwt_decode(jwtToken);
+    store.dispatch({
+      type: "login-success",
+      payload: decode_jwtToken,
+    });
 
-  // if (Auth.isAuthenticated) {
-  //   // todo: add !
-  //   return (
-  //     <div>
-  //       <Navbar />
-  //       {window.location.pathname !== "/admin/register" && (
-  //         <Redirect to="/admin/login" />
-  //       )}
-  //       <Switch>
-  //         <Route exact path="/admin/login">
-  //           <Login actions={actions} />
-  //         </Route>
-  //         <Route exact path="/admin/register">
-  //           <Register actions={actions} />
-  //         </Route>
-  //       </Switch>
-  //     </div>
-  //   );
-  // }
+    const currentTime = Date.now() / 1000;
+    if (decode_jwtToken.exp < currentTime) {
+      store.dispatch("logout");
+      window.location.href = "/admin/login";
+    }
+  }
+
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const location = useLocation();
+
+  if (!isLoggedIn) {
+    return (
+      <div>
+        <Navbar />
+        {location.pathname !== "/admin/register" && (
+          <Redirect to="/admin/login" />
+        )}
+        <Switch>
+          <Route exact path="/admin/login">
+            <Login />
+          </Route>
+          <Route exact path="/admin/register">
+            <Register />
+          </Route>
+        </Switch>
+      </div>
+    );
+  }
   return (
     <div>
       <Navbar />
       {window.location.pathname !== "/admin/login" && <Sidebar />}
       <Switch>
-        {
-          // todo: remove this
-        }
-        <Route
-          exact
-          path="/admin/register"
-          component={(props) => <Register {...props} actions={actions} />}
-        />
         <Route exact path="/admin/home" component={AdminHome} />
-        <Route
-          exact
-          path="/admin/login"
-          component={(props) => <Login {...props} actions={actions} />}
-        />
+        <Route exact path="/admin/register" component={AdminHome} />
+
+        <Route exact path="/admin/login" component={Login} />
 
         <Route exact path="/admin/categories" component={CategoryIndex} />
         <Route

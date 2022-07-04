@@ -2,13 +2,10 @@ import React, { Component } from "react";
 //import { SERVER_URL } from "../../constants";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
-import Auth from "../../Auth";
+import("./sidebar.css");
 
 class Sidebar extends Component {
   render() {
-    if (Auth.isAuthenticated) {
-      import("./sidebar.css");
-    }
     return (
       <aside className={"bd-sidebar" + this.props.x}>
         <div className="flex-shrink-0 p-3 bg-white" style={{ width: 280 }}>

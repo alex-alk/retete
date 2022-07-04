@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import classnames from "classnames";
+import { connect } from "react-redux";
+import * as authActions from "../redux/authActions";
 
 export class Register extends Component {
   constructor(props) {
@@ -30,27 +32,32 @@ export class Register extends Component {
     this.props.actions
       .register(user)
       .then((response) => {
+        // const body = {
+        //   username: this.state.username,
+        //   password: this.state.password,
+        // };
+        // this.props.actions
+        //   .postLogin(body)
+        //   .then((response) => {
+        //     this.setState({ pendingApiCall: false });
+
         this.setState({ pendingApiCall: false }, () => {
           this.props.history.push("/admin/home");
         });
+
+        //})
+        // .catch((error) => {
+        //   let errors = error.response.data;
+        //   this.setState({ errors, pendingApiCall: false });
+        // });
+        // this.setState({ pendingApiCall: false }, () => {
+        //   this.props.history.push("/admin/home");
+        // });
       })
       .catch((error) => {
         let errors = error.response.data;
         this.setState({ pendingApiCall: false, errors });
       });
-
-    //event.preventDefault();
-    // Auth.register(
-    //   this.state,
-    //   () => {
-    //     window.location.href = "/admin";
-    //   },
-    //   () => {
-    //     toast.warn("Error", {
-    //       position: toast.POSITION.BOTTOM_LEFT,
-    //     });
-    //   }
-    // );
   }
 
   onChangeDisplayName = (event) => {
@@ -95,7 +102,9 @@ export class Register extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Sign Up</h1>
+              <h1 id="sign-up" className="display-4 text-center">
+                Sign Up
+              </h1>
               <p className="lead text-center">Create your Account</p>
               <form>
                 <div className="form-group mb-3">
@@ -163,6 +172,7 @@ export class Register extends Component {
                 <button
                   type="button"
                   className="btn btn-primary btn-block mt-3"
+                  id="register-btn"
                   onClick={this.onSubmit}
                   disabled={
                     this.state.pendingApiCall ||
@@ -201,4 +211,12 @@ Register.defaultProps = {
   },
 };
 
-export default withRouter(Register);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: {
+      register: (user) => dispatch(authActions.register(user)),
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(withRouter(Register));

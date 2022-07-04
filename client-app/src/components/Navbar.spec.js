@@ -2,12 +2,32 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import Navbar from "./Navbar";
 import { MemoryRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import authReducer from "../redux/authReducer";
 
-const setup = () => {
+const loggedInState = {
+  id: 1,
+  username: "users",
+  password: "password",
+  isLoggedIn: true,
+};
+
+const defaultState = {
+  id: 0,
+  username: "",
+  password: "",
+  isLoggedIn: false,
+};
+
+const setup = (state = defaultState) => {
+  const store = createStore(authReducer, state);
   return render(
-    <MemoryRouter>
-      <Navbar />
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter>
+        <Navbar />
+      </MemoryRouter>
+    </Provider>
   );
 };
 
@@ -29,6 +49,12 @@ describe("Navbar", () => {
       const { container } = setup("/");
       const navigation = container.querySelector("nav");
       expect(navigation).toBeInTheDocument();
+    });
+
+    it("has link to logout when user logged in", () => {
+      const { queryByText } = setup(loggedInState);
+      const logoutLink = queryByText("Logout");
+      expect(logoutLink).toBeInTheDocument();
     });
   });
 });

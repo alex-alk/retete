@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { SERVER_URL } from "../../constants";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
+import axios from "axios";
 
 class CategoryIndex extends Component {
   constructor(props) {
@@ -30,9 +31,10 @@ class CategoryIndex extends Component {
       <tr key={index}>
         <td>{recipeCateg.name}</td>
         <td>{recipeCateg.color}</td>
-        <td>
+        <td style={{ maxWidth: "51px" }}>
           <Link
-            className="btn btn-primary"
+            style={{ marginRight: "5px" }}
+            className="btn btn-primary mr-1"
             to={"/admin/categories/" + recipeCateg.id + "/edit"}
           >
             Edit
@@ -50,13 +52,15 @@ class CategoryIndex extends Component {
       <div>
         <div className="page-content">
           <h1 className="page-title">Recipe categories</h1>
-
-          <table>
+          <table
+            className="table table-bordered table-responsive"
+            style={{ maxWidth: "600px" }}
+          >
             <thead>
               <tr>
                 <td>Name</td>
                 <td>Color</td>
-                <td>Action</td>
+                <td style={{ maxWidth: "30px" }}>Action</td>
               </tr>
             </thead>
             <tbody>{categs}</tbody>
@@ -67,14 +71,11 @@ class CategoryIndex extends Component {
   }
   componentDidMount() {
     document.title = "Admin | Recipes";
-    fetch(SERVER_URL + "/api/recipeCategories", {
-      headers: { Authorization: localStorage.getItem("jwt") },
-    })
+    axios
+      .get(SERVER_URL + "/api/recipeCategories")
       .then((response) => {
-        response.json().then((responseData) => {
-          this.setState({
-            recipeCategs: responseData,
-          });
+        this.setState({
+          recipeCategs: response.data,
         });
       })
       .catch((err) => console.error(err));

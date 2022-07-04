@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import Login from "./Login";
+import { Login } from "./Login";
 
 describe("Login", () => {
   describe("Layout", () => {
@@ -265,4 +265,3 @@ describe("Login", () => {
   });
 });
 console.error = () => {};
-//todo: cum a schimbat clasa invalid in curs?

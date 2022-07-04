@@ -1,9 +1,32 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Auth from "../Auth";
+import { connect } from "react-redux";
 
 class Navbar extends Component {
+  constructor() {
+    super();
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
   render() {
+    let links;
+    if (this.props.user.isLoggedIn) {
+      links = (
+        <button
+          onClick={this.handleLogout}
+          type="submit"
+          className="nav-link active"
+        >
+          Logout
+        </button>
+      );
+    } else {
+      links = (
+        <Link to="/admin/login" className="nav-link active">
+          Login
+        </Link>
+      );
+    }
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div className="container-fluid">
@@ -27,20 +50,7 @@ class Navbar extends Component {
               {/*<li className="nav-item">
                                 <a className="nav-link active" href="/#">Dashboard</a>
                             </li>*/}
-              <li className="nav-item">
-                {Auth.isAuthenticated && (
-                  <form onSubmit={this.handleLogout}>
-                    <button type="submit" className="nav-link active">
-                      Logout
-                    </button>
-                  </form>
-                )}
-                {!Auth.isAuthenticated && (
-                  <Link to="/admin/login" className="nav-link active">
-                    Login
-                  </Link>
-                )}
-              </li>
+              <li className="nav-item">{links}</li>
               {/*
                             <li className="nav-item">
                                 <a href="/#" className="nav-link active">Register</a>
@@ -52,7 +62,17 @@ class Navbar extends Component {
     );
   }
   handleLogout() {
-    Auth.logout();
+    const action = {
+      type: "logout-success",
+    };
+    this.props.dispatch(action);
   }
 }
-export default Navbar;
+
+const mapStateToProps = (state) => {
+  return {
+    user: state,
+  };
+};
+
+export default connect(mapStateToProps)(Navbar);

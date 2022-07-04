@@ -1,14 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import App from "./containers/App";
 import "./index.css";
 import { Provider } from "react-redux";
 import reportWebVitals from "./reportWebVitals";
-import { createStore } from "redux";
-import authReducer from "./redux/authReducer";
+import configureStore from "./redux/store";
 
-const store = createStore(authReducer);
+const store = configureStore();
 
 ReactDOM.render(
   <React.StrictMode>
