@@ -55,7 +55,7 @@ button.nav-link {
 	color: white;
 	white-space: nowrap;
 	height: 120px;
-	margin-bottom: 15px;
+	margin-bottom: 10px;
 	position: relative;
 }
 
@@ -65,7 +65,11 @@ button.nav-link {
 }
 
 .categ-name {
-	padding: 5px;
+	padding: 10px;
+}
+
+.categ-title {
+    margin-bottom: 15px
 }
 
 h4 {

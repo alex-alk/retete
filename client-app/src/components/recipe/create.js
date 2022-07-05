@@ -7,12 +7,13 @@ import { EditorState, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from "draftjs-to-html";
 import "./recipe.css";
+import axios from "axios";
 
 class RecipeCreate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryId: SERVER_URL + "/api/recipeCategories/1",
+      categoryId: "",
       name: "",
       description: "",
       content: "",
@@ -42,9 +43,9 @@ class RecipeCreate extends Component {
       })
     );
 
-    fetch(SERVER_URL + "/api/recipe/save", {
+    fetch(SERVER_URL + "/api/recipes", {
       method: "POST",
-      headers: { Authorization: sessionStorage.getItem("jwt") },
+      headers: { Authorization: localStorage.getItem("jwt") },
       body: formData,
     })
       .then(() => {
@@ -60,6 +61,7 @@ class RecipeCreate extends Component {
     if (name === "photo") {
       value = target.files[0];
     }
+
     this.setState({
       [name]: value,
     });
@@ -80,7 +82,12 @@ class RecipeCreate extends Component {
           <h1 className="page-title">Add recipe</h1>
           <form id="form-chapter" method="POST" onSubmit={this.handleSubmit}>
             Category:{" "}
-            <select className="mb-4" onChange={this.handleChange}>
+            <select
+              value={this.state.categoryId}
+              className="mb-4"
+              name="categoryId"
+              onChange={this.handleChange}
+            >
               {this.state.recipeCategs.map((recipeCateg, index) => (
                 <option value={recipeCateg.id} key={index}>
                   {recipeCateg.name}
@@ -89,11 +96,17 @@ class RecipeCreate extends Component {
             </select>
             <div className="form-group mb-4">
               Name:&nbsp;
-              <input type="text" name="name" onChange={this.handleChange} />
+              <input
+                value={this.state.name}
+                type="text"
+                name="name"
+                onChange={this.handleChange}
+              />
             </div>
             <div className="form-group mb-4">
               Description:&nbsp;
               <input
+                value={this.state.description}
                 style={{ width: "100%" }}
                 type="text"
                 name="description"
@@ -104,8 +117,10 @@ class RecipeCreate extends Component {
               Photo:&nbsp;
               <input type="file" name="photo" onChange={this.handleChange} />
             </div>
+            Steps:
             <div id="editor-wrapper">
               <Editor
+                value={this.state.content}
                 editorState={editorState}
                 wrapperClassName="wrapper-draft"
                 editorClassName="editor-draft"
@@ -124,12 +139,12 @@ class RecipeCreate extends Component {
 
   componentDidMount() {
     document.title = "Create recipe | Rețete";
-    fetch(SERVER_URL + "/api/recipeCategories")
-      .then((response) => response.json())
-      .then((responseData) => {
+    axios
+      .get(SERVER_URL + "/api/recipeCategories")
+      .then((response) => {
         this.setState({
-          recipeCategs: responseData._embedded.recipeCategories,
-          categoryId: responseData._embedded.recipeCategories[0].id,
+          recipeCategs: response.data,
+          categoryId: response.data[0].id,
         });
       })
       .catch((err) => console.error(err));

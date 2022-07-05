@@ -5,4 +5,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
 public interface RecipeCategoryRepository extends CrudRepository <RecipeCategory, Long> {
+    RecipeCategory getById(long id);
 }

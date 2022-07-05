@@ -1,7 +1,7 @@
 <head th:replace="fragments/head"></head>
 
 <div class="container-main">
-	<div th:each="categ : ${recipeCategs}" class="container-recipe mb-4"  th:classappend="${'border-' + categ.color}">
+	<div th:each="categ : ${recipeCategs}" class="container-recipe mb-4">
 		<div class="categ-title">
 			<h3 th:text="${categ.name}" class="text-center categ-name" th:classappend="${'bg-' + categ.color}"></h3>
 		</div>

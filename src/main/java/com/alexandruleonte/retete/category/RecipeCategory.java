@@ -1,6 +1,7 @@
 package com.alexandruleonte.retete.category;
 
-import com.alexandruleonte.retete.model.Recipe;
+import com.alexandruleonte.retete.recipe.Recipe;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.rest.core.annotation.RestResource;
 
@@ -26,7 +27,8 @@ public class RecipeCategory {
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="category")
-	@RestResource(exported = true)
+	@RestResource(exported = false)
+	@JsonIgnore
 	private List<Recipe> recipes;
 
 	public List<Recipe> getRecipes() {

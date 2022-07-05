@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { SERVER_URL } from "../../constants";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
+import axios from "axios";
 
 class RecipeList extends Component {
   constructor(props) {
@@ -13,16 +14,11 @@ class RecipeList extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    fetch(SERVER_URL + "/api/recipes/" + event.target.id.value, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: sessionStorage.getItem("jwt"),
-      },
-      body: JSON.stringify({ id: event.target.id.value }),
-    }).then(() => {
-      this.componentDidMount();
-    });
+    axios
+      .delete(SERVER_URL + "/api/recipes/" + event.target.id.value)
+      .then(() => {
+        this.componentDidMount();
+      });
   }
 
   render() {
@@ -32,6 +28,7 @@ class RecipeList extends Component {
         <td>{recipe.category.name}</td>
         <td>
           <Link
+            style={{ marginRight: "5px" }}
             className="btn btn-primary"
             to={"/admin/recipes/" + recipe.id + "/edit"}
           >
@@ -51,7 +48,10 @@ class RecipeList extends Component {
         <div className="page-content">
           <h1 className="page-title">Recipes</h1>
 
-          <table>
+          <table
+            className="table table-bordered table-responsive"
+            style={{ maxWidth: "600px" }}
+          >
             <thead>
               <tr>
                 <td>Name</td>
@@ -67,11 +67,11 @@ class RecipeList extends Component {
   }
   componentDidMount() {
     document.title = "Admin | Rețete";
-    fetch(SERVER_URL + "/api/recipes")
-      .then((response) => response.json())
-      .then((responseData) => {
+    axios
+      .get(SERVER_URL + "/api/recipes")
+      .then((response) => {
         this.setState({
-          recipes: responseData._embedded.recipes,
+          recipes: response.data,
         });
       })
       .catch((err) => console.error(err));

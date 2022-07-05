@@ -8,6 +8,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
 import "./recipe.css";
+import axios from "axios";
 
 class RecipeEdit extends Component {
   constructor(props) {
@@ -45,9 +46,9 @@ class RecipeEdit extends Component {
       })
     );
 
-    fetch(SERVER_URL + "/api/recipe/update", {
+    fetch(SERVER_URL + "/api/recipes", {
       method: "PATCH",
-      headers: { Authorization: sessionStorage.getItem("jwt") },
+      headers: { Authorization: localStorage.getItem("jwt") },
       body: formData,
     })
       .then(() => {
@@ -117,7 +118,7 @@ class RecipeEdit extends Component {
                 <img
                   src={
                     SERVER_URL +
-                    "uploads/recipe" +
+                    "/uploads/recipe" +
                     this.state.recipe.id +
                     ".jpg"
                   }
@@ -148,25 +149,28 @@ class RecipeEdit extends Component {
   componentDidMount() {
     document.title = "Create recipe | Recipes";
 
-    fetch(SERVER_URL + "/api/recipeCategories/")
-      .then((response) => response.json())
-      .then((responseData) => {
+    axios
+      .get(SERVER_URL + "/api/recipeCategories/")
+      .then((response) => {
         this.setState({
-          recipeCategs: responseData._embedded.recipeCategories,
+          recipeCategs: response.data,
         });
       })
       .catch((err) => console.error(err));
 
-    fetch(SERVER_URL + "/api/recipes/" + this.props.match.params.id)
-      .then((response) => response.json())
-      .then((responseData) => {
+    axios
+      .get(SERVER_URL + "/api/recipes/" + this.props.match.params.id)
+      .then((response) => {
         this.setState({
-          recipe: responseData,
-          categoryId: responseData.category.id,
-          name: responseData.name,
-          description: responseData.description,
+          content: response.data.content,
+          recipe: response.data,
+          categoryId: response.data.category.id,
+          name: response.data.name,
+          description: response.data.description,
           editorState: EditorState.createWithContent(
-            ContentState.createFromBlockArray(htmlToDraft(responseData.content))
+            ContentState.createFromBlockArray(
+              htmlToDraft(response.data.content)
+            )
           ),
         });
       })

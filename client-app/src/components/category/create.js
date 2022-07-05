@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { SERVER_URL } from "../../constants";
 import { withRouter } from "react-router";
+import axios from "axios";
 
 class CategoryCreate extends Component {
   constructor(props) {
     super(props);
-    this.state = { name: "", color: "" };
+    this.state = { name: "", color: "red" };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -13,16 +14,14 @@ class CategoryCreate extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    fetch(SERVER_URL + "/api/recipeCategories", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: sessionStorage.getItem("jwt"),
-      },
-      body: JSON.stringify({ name: this.state.name, color: this.state.color }),
-    }).then(() => {
-      this.props.history.push("/admin/categories");
-    });
+    axios
+      .post(SERVER_URL + "/api/recipeCategories", {
+        name: this.state.name,
+        color: this.state.color,
+      })
+      .then(() => {
+        this.props.history.push("/admin/categories");
+      });
   }
 
   handleChange(event) {

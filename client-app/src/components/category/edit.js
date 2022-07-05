@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { SERVER_URL } from "../../constants";
 import { withRouter } from "react-router";
+import axios from "axios";
 
 class CategoryEdit extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { id: 0, name: "", color: "" };
+    this.state = { name: "", color: "" };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -14,20 +15,15 @@ class CategoryEdit extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    fetch(SERVER_URL + "/api/recipeCategories/" + this.props.match.params.id, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: sessionStorage.getItem("jwt"),
-      },
-      body: JSON.stringify({
-        id: this.state.id,
+    axios
+      .patch(SERVER_URL + "/api/recipeCategories/", {
+        id: this.props.match.params.id,
         name: this.state.name,
         color: this.state.color,
-      }),
-    }).then(() => {
-      this.props.history.push("/admin/category");
-    });
+      })
+      .then(() => {
+        this.props.history.push("/admin/categories");
+      });
   }
 
   handleChange(event) {
@@ -55,13 +51,17 @@ class CategoryEdit extends Component {
               />
             </div>
             <div className="col-auto">
-              <input
-                type="text"
-                className="form-control"
+              <select
+                className="form-select"
                 name="color"
-                value={this.state.color}
                 onChange={this.handleChange}
-              />
+                value={this.state.color}
+              >
+                <option value="red">Red</option>
+                <option value="green">Green</option>
+                <option value="yellow">Yellow</option>
+                <option value="blue">Blue</option>
+              </select>
             </div>
             <div className="col-auto">
               <button type="submit" className="btn btn-primary">
@@ -75,13 +75,12 @@ class CategoryEdit extends Component {
   }
   componentDidMount() {
     document.title = "Editare rețetă | Rețete";
-    fetch(SERVER_URL + "/api/recipeCategories/" + this.props.match.params.id)
-      .then((response) => response.json())
-      .then((responseData) => {
+    axios
+      .get(SERVER_URL + "/api/recipeCategories/" + this.props.match.params.id)
+      .then((response) => {
         this.setState({
-          id: responseData.id,
-          name: responseData.name,
-          color: responseData.color,
+          name: response.data.name,
+          color: response.data.color,
         });
       })
       .catch((err) => console.error(err));

@@ -14,16 +14,11 @@ class CategoryIndex extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    fetch(SERVER_URL + "/api/recipeCategories/" + event.target.id.value, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: sessionStorage.getItem("jwt"),
-      },
-      body: JSON.stringify({ id: event.target.id.value }),
-    }).then(() => {
-      this.componentDidMount();
-    });
+    axios
+      .delete(SERVER_URL + "/api/recipeCategories/" + event.target.id.value, {})
+      .then(() => {
+        this.componentDidMount();
+      });
   }
 
   render() {
@@ -31,7 +26,7 @@ class CategoryIndex extends Component {
       <tr key={index}>
         <td>{recipeCateg.name}</td>
         <td>{recipeCateg.color}</td>
-        <td style={{ maxWidth: "51px" }}>
+        <td style={{ maxWidth: "55px" }}>
           <Link
             style={{ marginRight: "5px" }}
             className="btn btn-primary mr-1"
