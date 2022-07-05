@@ -57,37 +57,4 @@ public class CategoryApiController {
 		repo.delete(category);
 		return new ResponseEntity<>("ok", HttpStatus.OK);
 	}
-
-//	@PostMapping(value="/api/recipe/save")
-//	public String save(@RequestParam(value = "image", required = true) MultipartFile image,
-//			@RequestParam(value = "recipe", required = true) String recipe) throws JsonMappingException, JsonProcessingException {
-//
-//		ObjectMapper objectMapper = new ObjectMapper();
-//		Recipe recipeNew = objectMapper.readValue(recipe, Recipe.class);
-//
-//		Recipe insertedRecipe = repo.save(recipeNew);
-//
-//	    return "ok";
-//    }
-	
-//	@PatchMapping(value="/api/recipe/update")
-//	public String update(@RequestParam(value = "image", required = false) MultipartFile image,
-//			@RequestParam(value = "recipe", required = true) String recipe) throws JsonMappingException, JsonProcessingException {
-//
-//		ObjectMapper objectMapper = new ObjectMapper();
-//		Recipe recipeNew = objectMapper.readValue(recipe, Recipe.class);
-//
-//		Recipe insertedRecipe = repo.save(recipeNew);
-//		if (image != null) storageService.store(image, insertedRecipe.getId());
-//
-//	    return "ok";
-//    }
-	
-//	@DeleteMapping(value="/api/recipe/{id}")
-//	public String delete(@PathVariable long id) {
-//		Optional<Recipe> recipe = repo.findById(id);
-//		storageService.delete(id);
-//		repo.delete(recipe.get());
-//	    return "ok";
-//    }
 }

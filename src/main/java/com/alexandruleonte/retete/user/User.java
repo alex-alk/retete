@@ -10,7 +10,6 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "users")
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements UserDetails {
 	
 	@Id

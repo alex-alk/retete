@@ -30,9 +30,9 @@ class Navbar extends Component {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
+          <a className="navbar-brand" href="/">
             <i id="page-logo" className="fas fa-utensils"></i>
-          </Link>
+          </a>
           <button
             className="navbar-toggler"
             type="button"

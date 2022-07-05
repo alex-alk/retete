@@ -25,11 +25,6 @@ public class RecipeApiController {
 
 	@Autowired
 	MapValidationErrorService mapValidationErrorService;
-	
-//	@Autowired
-//	public RecipeApiController(StorageService storageService) {
-//		this.storageService = storageService;
-//	}
 
 	@GetMapping("/recipes")
 	public Iterable<Recipe> findAll() {

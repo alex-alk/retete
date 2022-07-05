@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import java.util.List;
-// TODO: add validators
+
 @Entity
 @Table(name = "recipe_categories")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})

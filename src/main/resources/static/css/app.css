@@ -131,6 +131,8 @@ h4 {
 .border-blue{
 	border: 5px solid blue;
 }
-
+.hidden {
+    display: none;
+}
 
 

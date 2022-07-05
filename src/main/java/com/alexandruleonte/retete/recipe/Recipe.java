@@ -3,7 +3,7 @@ package com.alexandruleonte.retete.recipe;
 import com.alexandruleonte.retete.category.RecipeCategory;
 
 import javax.persistence.*;
-// TODO: add validators
+
 @Entity
 @Table(name = "recipes")
 public class Recipe {
