@@ -18,9 +18,6 @@ public class RecipeCategory {
 	
 	@Column(length=100)
 	private String name;
-
-	@Column(length=30)
-	private String color;
 	
 	public long getId() {
 		return id;
@@ -46,11 +43,5 @@ public class RecipeCategory {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getColor() {
-		return color;
-	}
 
-	public void setColor(String color) {
-		this.color = color;
-	}
 }

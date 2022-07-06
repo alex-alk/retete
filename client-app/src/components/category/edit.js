@@ -7,7 +7,7 @@ class CategoryEdit extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { name: "", color: "" };
+    this.state = { name: "" };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,7 +19,6 @@ class CategoryEdit extends Component {
       .patch(SERVER_URL + "/api/recipeCategories/", {
         id: this.props.match.params.id,
         name: this.state.name,
-        color: this.state.color,
       })
       .then(() => {
         this.props.history.push("/admin/categories");
@@ -50,19 +49,7 @@ class CategoryEdit extends Component {
                 onChange={this.handleChange}
               />
             </div>
-            <div className="col-auto">
-              <select
-                className="form-select"
-                name="color"
-                onChange={this.handleChange}
-                value={this.state.color}
-              >
-                <option value="red">Red</option>
-                <option value="green">Green</option>
-                <option value="yellow">Yellow</option>
-                <option value="blue">Blue</option>
-              </select>
-            </div>
+
             <div className="col-auto">
               <button type="submit" className="btn btn-primary">
                 Submit
@@ -80,7 +67,6 @@ class CategoryEdit extends Component {
       .then((response) => {
         this.setState({
           name: response.data.name,
-          color: response.data.color,
         });
       })
       .catch((err) => console.error(err));
