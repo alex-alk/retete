@@ -47,14 +47,7 @@ class Navbar extends Component {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
             <ul className="navbar-nav">
-              {/*<li className="nav-item">
-                                <a className="nav-link active" href="/#">Dashboard</a>
-                            </li>*/}
               <li className="nav-item">{links}</li>
-              {/*
-                            <li className="nav-item">
-                                <a href="/#" className="nav-link active">Register</a>
-                            </li>*/}
             </ul>
           </div>
         </div>
@@ -66,6 +59,7 @@ class Navbar extends Component {
       type: "logout-success",
     };
     this.props.dispatch(action);
+    window.location.href = "/admin/login";
   }
 }
 

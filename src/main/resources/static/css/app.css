@@ -134,5 +134,68 @@ h4 {
 .hidden {
     display: none;
 }
+.recipes {
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(100% + 50px);
+    margin: 0;
+}
+.recipes a {
+    text-decoration: none;
+    width: calc(33.33% - 50px);
+    margin: 0 50px 50px 0;
+    display: block;
+}
+.recipes a img {
+    border: 1px solid #f2efe8;
+    margin: 0 0 25px 0;
+    transition: box-shadow ease .3s;
+}
+img {
+    max-width: 100%;
+    height: auto;
+    border: 0;
+}
+img {
+    display: inline-block;
+    vertical-align: middle;
+}
+.content-block.centered {
+    text-align: center;
+}
+.content-block {
+    padding: 100px calc(50% - 600px) 75px calc(50% - 600px);
+    background: #fff;
+}
 
+.recipes>a:hover img {
+    box-shadow: 7px 6px 21px 0 rgb(0 0 0 / 15%);
+}
+
+a {
+    color: #444;
+    text-decoration: underline;
+}
+a:hover {
+    color: #444;
+}
+.recipes>a:hover h2 {
+    text-decoration: underline;
+}
+
+.recipes>a:hover p {
+    text-decoration: none;
+}
+.recipes h2 {
+    font-size: 20px;
+    margin: 0 0 15px 0;
+}
+h2, .h2 {
+    color: #000;
+    font-family: HeptaSlab,Helvetica\ Neue,Helvetica,Roboto,Arial,sans-serif;
+    font-size: 50px;
+    line-height: 1.1;
+    font-weight: 400;
+}
 
