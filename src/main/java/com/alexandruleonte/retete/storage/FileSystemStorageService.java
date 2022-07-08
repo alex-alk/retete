@@ -35,12 +35,10 @@ public class FileSystemStorageService implements StorageService {
 			Path destinationFile = this.rootLocation.resolve(
 					Paths.get("recipe" + id + ".jpg"))
 					.normalize().toAbsolutePath();
-			
-			if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
-				// This is a security check
-				throw new StorageException(
-						"Cannot store file outside current directory.");
-			}
+
+			System.out.println("storing file...");
+			System.out.println(destinationFile.toAbsolutePath().toUri());
+
 			try (InputStream inputStream = file.getInputStream()) {
 				Files.copy(inputStream, destinationFile,
 					StandardCopyOption.REPLACE_EXISTING);
