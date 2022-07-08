@@ -13,7 +13,8 @@ public class Recipe {
 	
 	@Column(length=200)
 	private String name;
-	
+
+	@Lob
 	private String content;
 	
 	private String description;
