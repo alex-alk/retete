@@ -35,7 +35,6 @@ public class FileSystemStorageService implements StorageService {
 			Path destinationFile = this.rootLocation.resolve(
 					Paths.get("recipe" + id + ".jpg"))
 					.normalize().toAbsolutePath();
-			System.out.println(destinationFile.toUri());
 
 			if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
 				// This is a security check

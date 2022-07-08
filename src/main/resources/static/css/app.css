@@ -141,13 +141,13 @@ h4 {
     width: calc(100% + 50px);
     margin: 0;
 }
-.recipes a {
+.recipes>a {
     text-decoration: none;
     width: calc(33.33% - 50px);
     margin: 0 50px 50px 0;
     display: block;
 }
-.recipes a img {
+.recipes>a img {
     border: 1px solid #f2efe8;
     margin: 0 0 25px 0;
     transition: box-shadow ease .3s;
@@ -198,4 +198,63 @@ h2, .h2 {
     line-height: 1.1;
     font-weight: 400;
 }
-
+.recipe-wrapper {
+    max-width: 500px
+}
+@media only screen and (max-width: 900px) {
+    .recipes>a {
+        width: calc(50% - 50px);
+    }
+}
+@media only screen and (max-width: 1300px) {
+    .content-block {
+        padding: 50px 50px 25px 50px;
+    }
+}
+@media (min-width: 0em) and (max-width: 48em) {
+    .recipes>a {
+        width: 100%;
+        margin: 0 0 50px 0;
+    }
+}
+@media (min-width: 0em) and (max-width: 48em) {
+    .recipes {
+        display: block;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+    }
+}
+@media (min-width: 0em) and (max-width: 48em) {
+    .recipes>a img {
+        margin: 0 -50px 15px -50px;
+        width: calc(100% + 100px);
+        max-width: calc(100% + 100px);
+    }
+}
+.intro>img, .intro>picture {
+    margin: 0 auto 25px auto;
+    display: inline-block;
+}
+.intro {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+.intro .indent {
+    text-align: left;
+}
+@media (min-width: 0em) and (max-width: 48em) {
+    .intro .indent, .intro>p {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+}
+@media (min-width: 0em) and (max-width: 48em) {
+    .intro {
+        margin-left: -50px;
+        margin-right: -50px;
+    }
+}

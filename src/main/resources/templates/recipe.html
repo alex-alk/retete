@@ -1,9 +1,12 @@
 <head th:replace="fragments/head"></head>
 
-<div class="content text-center mt-5">
-    <img style="max-width: 400px" th:src="'/uploads/recipe' + ${recipe.id} + '.jpg'">
-    <h2 class="mt-4" th:text="${recipe.name}"></h2><br>
-    <div th:utext="${recipe.content}"></div>
-</div>
+<section class="content-block centered background-white">
+    <h1 class="mt-4 mb-5" th:text="${recipe.name}"></h1>
+    <div class="intro">
+        <img th:src="'/uploads/recipe' + ${recipe.id} + '.jpg'">
+        <div class="indent mt-4" th:utext="${recipe.content}"></div>
+    </div>
+
+</section>
 
 <footer th:replace="fragments/footer"></footer>
