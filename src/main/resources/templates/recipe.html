@@ -1,7 +1,7 @@
 <head th:replace="fragments/head"></head>
 
 <section class="content-block centered background-white">
-    <h1 class="mt-4 mb-5" th:text="${recipe.name}"></h1>
+    <h1 class="mt-2 mb-5" th:text="${recipe.name}"></h1>
     <div class="intro">
         <img th:src="'/uploads/recipe' + ${recipe.id} + '.jpg'">
         <div class="indent mt-4" th:utext="${recipe.content}"></div>
