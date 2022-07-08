@@ -34,8 +34,7 @@ function App() {
 
     const currentTime = Date.now() / 1000;
     if (decode_jwtToken.exp < currentTime) {
-      store.dispatch("logout");
-      window.location.href = "/admin/login";
+      store.dispatch({ type: "logout" });
     }
   }
 
