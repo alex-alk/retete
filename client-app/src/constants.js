@@ -1,1 +1,1 @@
-export const SERVER_URL = "http://retete.alexandruleonte.com";
+export const SERVER_URL = "http://localhost:8080";
