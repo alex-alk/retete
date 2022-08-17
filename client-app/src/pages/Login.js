@@ -59,7 +59,7 @@ export class Login extends Component {
   }
 
   render() {
-    let errors = this.state.errors;
+    let errors = this.state.errors ?? {};
     let disabledSubmit = false;
 
     if (this.state.username === "" || this.state.password === "") {

@@ -56,7 +56,7 @@ class Navbar extends Component {
   }
   handleLogout() {
     const action = {
-      type: "logout-success",
+      type: "logout",
     };
     this.props.dispatch(action);
     window.location.href = "/admin/login";
