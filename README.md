@@ -1,3 +1,1 @@
-# Spring boot and reactjs website
-#Setup:
-- install tomcat
+# Spring boot and reactjs web app
